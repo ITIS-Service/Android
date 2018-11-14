@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/d2"
+    android:paddingTop="@dimen/d2"
+    android:paddingRight="@dimen/d2">
+
+    <TextView
+        android:id="@+id/tv_course_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Мобильная разработка (iOS)"
+        android:textAlignment="center"
+        android:textColor="@color/colorDefaultWhite"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_course_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d1"
+        android:text="Описание"
+        android:textColor="@color/colorDefaultWhite"
+        android:textSize="14sp"
+        tools:ignore="RtlSymmetry" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/d2"
+        android:layout_marginBottom="@dimen/d1"
+        android:background="@color/colorDefaultWhite" />
+
+</LinearLayout>

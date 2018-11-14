@@ -1,0 +1,115 @@
+package com.itis.itisservice.ui.fragment
+
+import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.View
+import android.widget.Toast
+import com.arellomobile.mvp.presenter.InjectPresenter
+
+import com.itis.itisservice.R
+import com.itis.itisservice.mvp.presenter.SignInPresenter
+import com.itis.itisservice.mvp.view.SignInView
+import kotlinx.android.synthetic.main.fragment_login.*
+
+class SignInFragment : BaseFragment(), SignInView {
+
+    @InjectPresenter
+    lateinit var presenter: SignInPresenter
+
+    companion object {
+
+        fun newInstance(): SignInFragment {
+            val args = Bundle()
+            val fragment = SignInFragment()
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        baseActivity?.setBackArrow(false)
+        baseActivity?.fragmentOnScreen(this)
+        setOnClickListeners()
+
+        edt_email.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(text: CharSequence, start: Int,
+                                       before: Int, count: Int) {
+                presenter.onEmailTextChanged(text)
+            }
+        })
+
+        edt_password.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(text: CharSequence, start: Int,
+                                       before: Int, count: Int) {
+                presenter.onPasswordTextChanged(text)
+            }
+        })
+
+        presenter.attachView(this)
+    }
+
+    override fun onDestroy() {
+        presenter.detachView(this)
+        super.onDestroy()
+    }
+
+    override fun onCreateToolbarTitle(): Int {
+        return R.string.screen_name_sign_in
+    }
+
+    override val mainContentLayout: Int
+        get() = R.layout.fragment_login
+
+    private fun isEmailValid(): Boolean {
+        return edt_email.isValid()
+    }
+
+    private fun isPasswordValid(): Boolean {
+        return edt_password.isValid()
+    }
+
+    private fun forceUpdateEmailPassword() {
+        edt_email.forceUpdateState()
+        edt_password.forceUpdateState()
+    }
+
+    override fun enableLoginButton() {
+        btn_to_sign_in.isEnabled = true
+    }
+
+    override fun disableLoginButton() {
+        btn_to_sign_in.isEnabled = false
+    }
+
+    override fun openProfile() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private fun onLoginClicked() {
+        if (isEmailValid() && isPasswordValid()) {
+            val email: String = edt_email.text.toString()
+            val password: String = edt_password.text.toString()
+            presenter.startLogin(email, password)
+            Toast.makeText(baseActivity, "Yesss", Toast.LENGTH_SHORT).show()
+        } else {
+            forceUpdateEmailPassword()
+        }
+    }
+
+    private fun setOnClickListeners() {
+        btn_link_to_sign_up.setOnClickListener { baseActivity?.setContent(SignUpFragment.newInstance(), true) }
+        btn_to_sign_in.setOnClickListener { onLoginClicked() }
+    }
+}
+
