@@ -17,4 +17,5 @@
     <string name="confirm_password_validation_error">Пароли должны совпадать</string>
     <string name="btn_sign_in_text">Войти</string>
     <string name="btn_sign_up_text">Регистрация</string>
+    <string name="email_address">Регистрация</string>
 </resources>

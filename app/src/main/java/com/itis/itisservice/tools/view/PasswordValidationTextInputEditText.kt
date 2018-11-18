@@ -47,10 +47,6 @@ class PasswordValidationTextInputEditText : TextInputEditText {
         refreshDrawableState()
     }
 
-    fun isValid(): Boolean {
-        return passwordValidator.isValid(text.toString())
-    }
-
     private fun init() {
         App.applicationComponent.inject(this)
 

@@ -2,6 +2,7 @@ package com.itis.itisservice
 
 import android.app.Application
 import android.content.Context
+import android.os.Build
 import com.itis.itisservice.di.component.ApplicationComponent
 import com.itis.itisservice.di.component.DaggerApplicationComponent
 import com.itis.itisservice.di.module.ApplicationModule
@@ -17,6 +18,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        initComponent()
         initRealm()
     }
 
@@ -24,12 +26,10 @@ class App : Application() {
         Realm.init(this)
         val configuration = RealmConfiguration.Builder()
                 .rxFactory(RealmObservableFactory())
-                .schemaVersion(1)
+                .schemaVersion(BuildConfig.VERSION_CODE.toLong())
                 .deleteRealmIfMigrationNeeded()
                 .build()
         Realm.setDefaultConfiguration(configuration)
-
-        initComponent()
     }
 
     private fun initComponent() {

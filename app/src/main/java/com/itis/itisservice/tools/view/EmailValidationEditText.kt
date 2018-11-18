@@ -47,10 +47,6 @@ class EmailValidationEditText : EditText {
         refreshDrawableState()
     }
 
-    fun isValid(): Boolean {
-        return emailValidator.isValid(text.toString())
-    }
-
     private fun init() {
         App.applicationComponent.inject(this)
 

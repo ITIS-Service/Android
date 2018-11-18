@@ -10,10 +10,10 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.itis.itisservice.R
 import com.itis.itisservice.mvp.presenter.SignInPresenter
 import com.itis.itisservice.mvp.view.SignInView
+import com.itis.itisservice.utils.hide
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class SignInFragment : BaseFragment(), SignInView {
-
     @InjectPresenter
     lateinit var presenter: SignInPresenter
 
@@ -25,8 +25,8 @@ class SignInFragment : BaseFragment(), SignInView {
             fragment.arguments = args
             return fragment
         }
-    }
 
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -55,13 +55,6 @@ class SignInFragment : BaseFragment(), SignInView {
                 presenter.onPasswordTextChanged(text)
             }
         })
-
-        presenter.attachView(this)
-    }
-
-    override fun onDestroy() {
-        presenter.detachView(this)
-        super.onDestroy()
     }
 
     override fun onCreateToolbarTitle(): Int {
@@ -71,17 +64,26 @@ class SignInFragment : BaseFragment(), SignInView {
     override val mainContentLayout: Int
         get() = R.layout.fragment_login
 
-    private fun isEmailValid(): Boolean {
-        return edt_email.isValid()
+    override fun onCodeInvalid() {
+        Toast.makeText(baseActivity, "Неверный код", Toast.LENGTH_SHORT).show()
     }
 
-    private fun isPasswordValid(): Boolean {
-        return edt_password.isValid()
-    }
-
-    private fun forceUpdateEmailPassword() {
+    override fun forceUpdateEmailPassword() {
         edt_email.forceUpdateState()
         edt_password.forceUpdateState()
+    }
+
+    override fun onConnectionError(error: Throwable) {
+        Toast.makeText(baseActivity, error.message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showProgress() {
+        hide(linear_layout_container_sign_in)
+        progressBar?.visibility = View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        progressBar?.visibility = View.GONE
     }
 
     override fun enableLoginButton() {
@@ -92,24 +94,17 @@ class SignInFragment : BaseFragment(), SignInView {
         btn_to_sign_in.isEnabled = false
     }
 
-    override fun openProfile() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    private fun onLoginClicked() {
-        if (isEmailValid() && isPasswordValid()) {
-            val email: String = edt_email.text.toString()
-            val password: String = edt_password.text.toString()
-            presenter.startLogin(email, password)
-            Toast.makeText(baseActivity, "Yesss", Toast.LENGTH_SHORT).show()
-        } else {
-            forceUpdateEmailPassword()
-        }
+    override fun onLoginSuccess() {
+        Toast.makeText(baseActivity, "Yesss", Toast.LENGTH_SHORT).show()
     }
 
     private fun setOnClickListeners() {
         btn_link_to_sign_up.setOnClickListener { baseActivity?.setContent(SignUpFragment.newInstance(), true) }
-        btn_to_sign_in.setOnClickListener { onLoginClicked() }
+        btn_to_sign_in.setOnClickListener {
+            val email = edt_email.text.toString()
+            val password = edt_password.text.toString()
+            presenter.onLoginClicked(email, password)
+        }
     }
 }
 

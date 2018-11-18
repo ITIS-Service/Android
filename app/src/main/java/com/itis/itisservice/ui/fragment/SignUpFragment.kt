@@ -1,6 +1,7 @@
 package com.itis.itisservice.ui.fragment
 
 import android.os.Bundle
+import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -13,6 +14,10 @@ import com.itis.itisservice.tools.validation.validateInput
 import com.itis.itisservice.utils.hide
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_sign_up.*
+import android.text.Editable
+import android.widget.Toast
+import com.itis.itisservice.model.User
+
 
 class SignUpFragment : BaseFragment(), SignUpView {
 
@@ -48,10 +53,22 @@ class SignUpFragment : BaseFragment(), SignUpView {
         baseActivity?.setBackArrow(true)
         baseActivity?.fragmentOnScreen(this)
         btn_to_sign_up.setOnClickListener { onRegisterClicked() }
-    }
+        edt_email_sign_up.addTextChangedListener(object : TextWatcher {
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        super.onCreateOptionsMenu(menu, inflater)
+            override fun afterTextChanged(s: Editable) {}
+
+            override fun beforeTextChanged(s: CharSequence, start: Int,
+                                           count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int,
+                                       before: Int, count: Int) {
+                if (s.length == 1) {
+                    edt_email_sign_up.setText(edt_email_sign_up.text.toString() + "@stud.kpfu.ru")
+                    edt_email_sign_up.setSelection(1)
+                }
+            }
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -71,8 +88,43 @@ class SignUpFragment : BaseFragment(), SignUpView {
         return R.string.screen_name_sign_up
     }
 
-    override fun showValidationMessage() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onValidEmail(error: Boolean) {
+        if (error) {
+            ti_email.isErrorEnabled = true
+            ti_email.error = getString(R.string.email_validation_error)
+        } else {
+            ti_email.isErrorEnabled = false
+        }
+    }
+
+    override fun onValidPassword(error: Boolean) {
+        if (error) {
+            ti_password.isErrorEnabled = true
+            ti_password.error = getString(R.string.password_validation_error)
+        } else {
+            ti_password.isErrorEnabled = false
+        }
+    }
+
+    override fun onValidConfirmPassword(error: Boolean) {
+        if (error) {
+            ti_confirm_password.isErrorEnabled = true
+            ti_confirm_password.error = getString(R.string.confirm_password_validation_error)
+        } else {
+            ti_confirm_password.isErrorEnabled = false
+        }
+    }
+
+    override fun onRegistrationSuccess() {
+        onBackPressed()
+    }
+
+    override fun onConnectionError(error: Throwable) {
+        Toast.makeText(baseActivity, error.message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onCodeInvalid() {
+        Toast.makeText(baseActivity, "Неверный код", Toast.LENGTH_SHORT).show()
     }
 
     override fun showProgress() {
@@ -82,15 +134,17 @@ class SignUpFragment : BaseFragment(), SignUpView {
 
     override fun hideProgress() {
         progressBar?.visibility = View.GONE
-        onBackPressed()
     }
 
     private fun validateFields() {
         with(disposable) {
             clear()
-            add(validateInput(ti_email, edt_email_sign_up) { isEmailValid((edt_email_sign_up.text.toString())) })
-            add(validateInput(ti_password, edt_password_sign_up) { isPasswordValid(edt_password_sign_up.text.toString()) })
-            add(validateInput(ti_confirm_password, edt_confirm_password) { isConfirmPasswordValid(edt_confirm_password.text.toString()) })
+            add(validateInput(ti_email, edt_email_sign_up) { presenter.isEmailValid(edt_email_sign_up.text.toString()) })
+            add(validateInput(ti_password, edt_password_sign_up) { presenter.isPasswordValid(edt_password_sign_up.text.toString()) })
+            add(validateInput(ti_confirm_password, edt_confirm_password) {
+                presenter.isConfirmPasswordValid(edt_password_sign_up.text.toString()
+                        , edt_confirm_password.text.toString())
+            })
         }
     }
 
@@ -98,37 +152,12 @@ class SignUpFragment : BaseFragment(), SignUpView {
         return !(ti_email.isErrorEnabled || ti_password.isErrorEnabled || ti_confirm_password.isErrorEnabled)
     }
 
-    private fun isEmailValid(email: String) {
-        if (!email.contains("@", true)) {
-            ti_email.isErrorEnabled = true
-            ti_email.error = getString(R.string.email_validation_error)
-        } else {
-            ti_email.isErrorEnabled = false
-        }
-    }
-
-    private fun isPasswordValid(password: String) {
-        if (password.length < 4) {
-            ti_password.isErrorEnabled = true
-            ti_password.error = getString(R.string.password_validation_error)
-        } else {
-            ti_password.isErrorEnabled = false
-        }
-    }
-
-    private fun isConfirmPasswordValid(confirmPassword: String) {
-        if (confirmPassword != edt_password_sign_up.text.toString()) {
-            ti_confirm_password.isErrorEnabled = true
-            ti_confirm_password.error = getString(R.string.confirm_password_validation_error)
-        } else {
-            ti_confirm_password.isErrorEnabled = false
-        }
-    }
-
     private fun onRegisterClicked() {
         if (isValidFields() && !edt_email_sign_up.text.isEmpty() && !edt_password_sign_up.text.isEmpty()
                 && !edt_confirm_password.text.isEmpty()) {
-            presenter.startRegister()
+            val email = edt_email_sign_up.text.toString()
+            val password = edt_password_sign_up.text.toString()
+            presenter.startRegister(User(email = email, password = password))
         }
     }
 

@@ -1,9 +1,9 @@
 package com.itis.itisservice.mvp.view
 
-import com.arellomobile.mvp.MvpView
 
-interface SignUpView : MvpView {
-    fun showValidationMessage()
-    fun showProgress()
-    fun hideProgress()
+interface SignUpView : BaseView {
+    fun onValidEmail(error: Boolean)
+    fun onValidPassword(error: Boolean)
+    fun onValidConfirmPassword(error: Boolean)
+    fun onRegistrationSuccess()
 }

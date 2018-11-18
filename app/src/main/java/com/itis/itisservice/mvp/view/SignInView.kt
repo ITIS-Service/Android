@@ -1,9 +1,15 @@
 package com.itis.itisservice.mvp.view
 
-import com.arellomobile.mvp.MvpView
+import com.arellomobile.mvp.viewstate.strategy.SkipStrategy
+import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 
-interface SignInView : MvpView {
+
+interface SignInView : BaseView {
     fun enableLoginButton()
     fun disableLoginButton()
-    fun openProfile()
+
+    @StateStrategyType(SkipStrategy::class)
+    fun onLoginSuccess()
+
+    fun forceUpdateEmailPassword()
 }

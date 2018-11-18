@@ -6,11 +6,14 @@ import javax.inject.Singleton
 import com.itis.itisservice.tools.view.PasswordValidationTextInputEditText
 import com.itis.itisservice.tools.view.EmailValidationEditText
 import com.itis.itisservice.App
+import com.itis.itisservice.di.module.ApiModule
 import com.itis.itisservice.di.module.ValidationModule
+import com.itis.itisservice.mvp.presenter.SignInPresenter
+import com.itis.itisservice.mvp.presenter.SignUpPresenter
 
 
 @Singleton
-@Component(modules = [(ApplicationModule::class), (ValidationModule::class)])
+@Component(modules = [ApplicationModule::class, ValidationModule::class, ApiModule::class])
 interface ApplicationComponent {
 
     fun inject(app: App)
@@ -18,4 +21,8 @@ interface ApplicationComponent {
     fun inject(emailValidationEditText: EmailValidationEditText)
 
     fun inject(passwordValidationTextInputEditText: PasswordValidationTextInputEditText)
+
+    fun inject(presenter: SignInPresenter)
+
+    fun inject(presenter: SignUpPresenter)
 }

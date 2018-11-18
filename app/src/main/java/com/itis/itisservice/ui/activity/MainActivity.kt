@@ -15,6 +15,6 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContent(ListCoursesFragment.newInstance(), false)
+        setContent(SignInFragment.newInstance(), false)
     }
 }
