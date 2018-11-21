@@ -46,8 +46,7 @@ abstract class BaseActivity : MvpAppCompatActivity() {
     private fun setToolbarTitle(title: String) {
         if (supportActionBar != null) {
             supportActionBar?.setDisplayShowTitleEnabled(false)
-            val toolbarTitle = toolbar?.findViewById<TextView>(R.id.toolbar_title)
-            toolbarTitle?.text = title
+            toolbar_title.text = title
         }
     }
 

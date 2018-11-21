@@ -7,6 +7,7 @@
     <string name="screen_name_sign_in">Вход</string>
     <string name="screen_name_courses">Курсы</string>
     <string name="screen_name_sign_up">Регистрация</string>
+    <string name="screen_name_quiz">Опрос</string>
 
     <string name="hint_email">Email</string>
     <string name="hint_password">Пароль</string>
@@ -18,4 +19,8 @@
     <string name="btn_sign_in_text">Войти</string>
     <string name="btn_sign_up_text">Регистрация</string>
     <string name="email_address">Регистрация</string>
+    <string name="btn_start_quiz_text">Пройти Опрос</string>
+    <string name="btn_skip_text">Пропустить</string>
+    
+    <string name="quiz_description">Мы можем подобрать интересный для вас курс по выбору. Для этого вам потребуется пройти небольшой опрос из нескольких вопросов</string>
 </resources>

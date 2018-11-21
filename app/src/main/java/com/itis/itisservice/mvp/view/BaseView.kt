@@ -8,7 +8,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 interface BaseView : MvpView {
     @StateStrategyType(SkipStrategy::class)
     fun onCodeInvalid()
-
+    @StateStrategyType(SkipStrategy::class)
     fun onConnectionError(error: Throwable)
 
     fun showProgress()

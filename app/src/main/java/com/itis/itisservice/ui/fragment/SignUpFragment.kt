@@ -124,7 +124,7 @@ class SignUpFragment : BaseFragment(), SignUpView {
     }
 
     override fun onCodeInvalid() {
-        Toast.makeText(baseActivity, "Неверный код", Toast.LENGTH_SHORT).show()
+        Toast.makeText(baseActivity, "Ошибка регистрации", Toast.LENGTH_SHORT).show()
     }
 
     override fun showProgress() {
@@ -148,15 +148,20 @@ class SignUpFragment : BaseFragment(), SignUpView {
         }
     }
 
+    private fun isEmptyFields(): Boolean {
+        return !(!edt_email_sign_up.text.isEmpty() && !edt_password_sign_up.text.isEmpty()
+                && !edt_confirm_password.text.isEmpty())
+    }
+
     private fun isValidFields(): Boolean {
         return !(ti_email.isErrorEnabled || ti_password.isErrorEnabled || ti_confirm_password.isErrorEnabled)
     }
 
     private fun onRegisterClicked() {
-        if (isValidFields() && !edt_email_sign_up.text.isEmpty() && !edt_password_sign_up.text.isEmpty()
-                && !edt_confirm_password.text.isEmpty()) {
-            val email = edt_email_sign_up.text.toString()
-            val password = edt_password_sign_up.text.toString()
+        val email = edt_email_sign_up.text.toString()
+        val password = edt_password_sign_up.text.toString()
+        val confirmPassword = edt_confirm_password.text.toString()
+        if (isValidFields() && !isEmptyFields() && confirmPassword == password) {
             presenter.startRegister(User(email = email, password = password))
         }
     }

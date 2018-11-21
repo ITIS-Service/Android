@@ -27,6 +27,7 @@ class SignInFragment : BaseFragment(), SignInView {
         }
 
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -41,6 +42,10 @@ class SignInFragment : BaseFragment(), SignInView {
 
             override fun onTextChanged(text: CharSequence, start: Int,
                                        before: Int, count: Int) {
+                if (text.length == 1) {
+                    edt_email.setText(edt_email.text.toString() + "@stud.kpfu.ru")
+                    edt_email.setSelection(1)
+                }
                 presenter.onEmailTextChanged(text)
             }
         })
@@ -65,7 +70,7 @@ class SignInFragment : BaseFragment(), SignInView {
         get() = R.layout.fragment_login
 
     override fun onCodeInvalid() {
-        Toast.makeText(baseActivity, "Неверный код", Toast.LENGTH_SHORT).show()
+        Toast.makeText(baseActivity, "Ошибка авторизации", Toast.LENGTH_SHORT).show()
     }
 
     override fun forceUpdateEmailPassword() {
@@ -95,7 +100,7 @@ class SignInFragment : BaseFragment(), SignInView {
     }
 
     override fun onLoginSuccess() {
-        Toast.makeText(baseActivity, "Yesss", Toast.LENGTH_SHORT).show()
+        baseActivity?.setContent(StartQuizFragment.newInstance(), false)
     }
 
     private fun setOnClickListeners() {
