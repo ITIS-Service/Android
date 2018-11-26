@@ -7,6 +7,7 @@ import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface UserApi {
@@ -18,5 +19,5 @@ interface UserApi {
     fun signUp(@Body user: User): Single<Response<Void>>
 
     @GET("users/questions")
-    fun questions(): Observable<List<Question>>
+    fun questions(@Header("Authorization") token: String?): Observable<List<Question>>
 }

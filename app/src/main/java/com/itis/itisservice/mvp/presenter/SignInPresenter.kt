@@ -1,5 +1,6 @@
 package com.itis.itisservice.mvp.presenter
 
+import android.util.Log
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.itis.itisservice.App
@@ -10,8 +11,8 @@ import com.itis.itisservice.tools.validation.EmailValidator
 import com.itis.itisservice.tools.validation.PasswordValidator
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import org.w3c.dom.Text
 import javax.inject.Inject
+import com.itis.itisservice.utils.AppPreferencesHelper
 
 @InjectViewState
 class SignInPresenter : MvpPresenter<SignInView>() {
@@ -21,6 +22,9 @@ class SignInPresenter : MvpPresenter<SignInView>() {
 
     @Inject
     lateinit var passwordValidator: PasswordValidator
+
+    @Inject
+    lateinit var sharedPreferences: AppPreferencesHelper
 
     @Inject
     lateinit var userApi: UserApi
@@ -66,12 +70,18 @@ class SignInPresenter : MvpPresenter<SignInView>() {
                         .doAfterTerminate { viewState.hideProgress() }
                         .subscribe({
                             if (it.code() == 200) {
-                                viewState.onLoginSuccess()
+                                val token = it.headers().get("Authorization")
+                                Log.d("SIGN_IN PRESENTER", "token: $token")
+                                viewState.onLoginSuccess(token)
                             } else {
                                 viewState.onCodeInvalid()
                             }
                         }, { error -> viewState.onConnectionError(error) })
         )
+    }
+
+    fun createSharedPreferences(token: String?) {
+        sharedPreferences.setAccessToken(token)
     }
 
     fun onLoginClicked(email: String, password: String) {

@@ -1,15 +1,20 @@
 package com.itis.itisservice.mvp.presenter
 
+import android.content.SharedPreferences
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.itis.itisservice.App
 import com.itis.itisservice.api.UserApi
 import com.itis.itisservice.mvp.view.QuizView
+import com.itis.itisservice.utils.AppPreferencesHelper
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 @InjectViewState
 class QuizPresenter : MvpPresenter<QuizView>() {
+
+    @Inject
+    lateinit var sharedPreferences: AppPreferencesHelper
 
     @Inject
     lateinit var userApi: UserApi
@@ -27,7 +32,7 @@ class QuizPresenter : MvpPresenter<QuizView>() {
 
     private fun loadQuestions() {
         compositeDisposable.add(userApi
-                .questions()
+                .questions(sharedPreferences.getAccessToken())
                 .subscribe({
                     viewState.showQuestions(it)
                 }, { error -> viewState.onConnectionError(error) })

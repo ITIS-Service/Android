@@ -1,20 +1,17 @@
 package com.itis.itisservice.di.module
 
-import android.app.Application
 import android.content.Context
 import com.itis.itisservice.utils.AppPreferencesHelper
-
-import javax.inject.Singleton
-
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 @Module
-class ApplicationModule(private val mApplication: Application) {
+class PreferencesModule {
 
     @Singleton
     @Provides
-    fun provideContext(): Context {
-        return mApplication.applicationContext
+    fun provideLocalStorage(context: Context): AppPreferencesHelper {
+        return AppPreferencesHelper(context)
     }
 }

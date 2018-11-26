@@ -10,10 +10,12 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.itis.itisservice.R
 import com.itis.itisservice.mvp.presenter.SignInPresenter
 import com.itis.itisservice.mvp.view.SignInView
+import com.itis.itisservice.ui.activity.BaseActivity
 import com.itis.itisservice.utils.hide
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class SignInFragment : BaseFragment(), SignInView {
+
     @InjectPresenter
     lateinit var presenter: SignInPresenter
 
@@ -99,7 +101,8 @@ class SignInFragment : BaseFragment(), SignInView {
         btn_to_sign_in.isEnabled = false
     }
 
-    override fun onLoginSuccess() {
+    override fun onLoginSuccess(token: String?) {
+        presenter.createSharedPreferences(token)
         baseActivity?.setContent(StartQuizFragment.newInstance(), false)
     }
 
