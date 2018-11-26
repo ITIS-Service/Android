@@ -8,6 +8,7 @@ import com.itis.itisservice.tools.view.EmailValidationEditText
 import com.itis.itisservice.App
 import com.itis.itisservice.di.module.ApiModule
 import com.itis.itisservice.di.module.ValidationModule
+import com.itis.itisservice.mvp.presenter.QuizPresenter
 import com.itis.itisservice.mvp.presenter.SignInPresenter
 import com.itis.itisservice.mvp.presenter.SignUpPresenter
 
@@ -25,4 +26,6 @@ interface ApplicationComponent {
     fun inject(presenter: SignInPresenter)
 
     fun inject(presenter: SignUpPresenter)
+
+    fun inject(presenter: QuizPresenter)
 }

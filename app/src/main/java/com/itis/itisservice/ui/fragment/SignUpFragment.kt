@@ -74,7 +74,7 @@ class SignUpFragment : BaseFragment(), SignUpView {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
             android.R.id.home -> {
-                onBackPressed()
+                baseActivity?.onBackPressed()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -116,7 +116,7 @@ class SignUpFragment : BaseFragment(), SignUpView {
     }
 
     override fun onRegistrationSuccess() {
-        onBackPressed()
+        baseActivity?.onBackPressed()
     }
 
     override fun onConnectionError(error: Throwable) {
@@ -164,13 +164,5 @@ class SignUpFragment : BaseFragment(), SignUpView {
         if (isValidFields() && !isEmptyFields() && confirmPassword == password) {
             presenter.startRegister(User(email = email, password = password))
         }
-    }
-
-    private fun onBackPressed() {
-        val fm = baseActivity?.myFragmentManager
-        if (fm?.backStackEntryCount!! > 0)
-            fm.popBackStack()
-        else
-            activity?.finish()
     }
 }

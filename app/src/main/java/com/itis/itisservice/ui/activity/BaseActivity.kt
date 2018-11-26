@@ -36,7 +36,11 @@ abstract class BaseActivity : MvpAppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
+        if (myFragmentManager?.backStackEntryCount!! > 0) {
+            myFragmentManager?.popBackStack()
+        } else {
+            super.onBackPressed()
+        }
     }
 
     fun fragmentOnScreen(fragment: BaseFragment) {
