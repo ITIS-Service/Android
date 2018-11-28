@@ -35,14 +35,6 @@ abstract class BaseActivity : MvpAppCompatActivity() {
         layoutInflater.inflate(mainContentLayout, main_wrapper)
     }
 
-    override fun onBackPressed() {
-        if (myFragmentManager?.backStackEntryCount!! > 0) {
-            myFragmentManager?.popBackStack()
-        } else {
-            super.onBackPressed()
-        }
-    }
-
     fun fragmentOnScreen(fragment: BaseFragment) {
         setToolbarTitle(fragment.createToolbarTitle(this))
     }

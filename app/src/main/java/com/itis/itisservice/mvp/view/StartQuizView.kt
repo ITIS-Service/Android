@@ -1,11 +1,10 @@
 package com.itis.itisservice.mvp.view
 
-import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.SkipStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import com.itis.itisservice.model.Question
-import io.reactivex.annotations.NonNull
 
-interface QuizView : MvpView {
-
+interface StartQuizView: BaseView {
+    @StateStrategyType(SkipStrategy::class)
+    fun openQuiz(questions: List<Question>)
 }

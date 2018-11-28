@@ -6,6 +6,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.itis.itisservice.R
 import com.itis.itisservice.mvp.presenter.MainPresenter
 import com.itis.itisservice.mvp.view.MainView
+import com.itis.itisservice.ui.fragment.QuizFragment
 import com.itis.itisservice.ui.fragment.SignInFragment
 import com.itis.itisservice.ui.fragment.StartQuizFragment
 
@@ -23,5 +24,16 @@ class MainActivity : BaseActivity(), MainView {
 
     override fun signedIn() {
         setContent(StartQuizFragment.newInstance(), false)
+    }
+
+    override fun onBackPressed() {
+        if (myFragmentManager?.backStackEntryCount!! > 0) {
+            if (QuizFragment.count != 0) {
+                QuizFragment.count--
+            }
+            myFragmentManager?.popBackStack()
+        } else {
+            super.onBackPressed()
+        }
     }
 }

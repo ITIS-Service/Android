@@ -5,4 +5,6 @@ object Constants {
 
     const val PREF_KEY_ACCESS_TOKEN = "PREF_KEY_ACCESS_TOKEN"
     const val SHARED_PREF_NAME = "shPref"
+
+    const val NUM_QUESTION_KEY = "num_question"
 }
