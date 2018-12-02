@@ -33,8 +33,8 @@ class SignInFragment : BaseFragment(), SignInView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        baseActivity?.setBackArrow(false)
-        baseActivity?.fragmentOnScreen(this)
+        baseActivity.setBackArrow(false)
+        baseActivity.fragmentOnScreen(this)
         setOnClickListeners()
 
         edt_email.addTextChangedListener(object : TextWatcher {
@@ -103,11 +103,11 @@ class SignInFragment : BaseFragment(), SignInView {
 
     override fun onLoginSuccess(token: String?) {
         presenter.createSharedPreferences(token)
-        baseActivity?.setContent(StartQuizFragment.newInstance(), false)
+        baseActivity.setContent(StartQuizFragment.newInstance(), false)
     }
 
     private fun setOnClickListeners() {
-        btn_link_to_sign_up.setOnClickListener { baseActivity?.setContent(SignUpFragment.newInstance(), true) }
+        btn_link_to_sign_up.setOnClickListener { baseActivity.setContent(SignUpFragment.newInstance(), true) }
         btn_to_sign_in.setOnClickListener {
             val email = edt_email.text.toString()
             val password = edt_password.text.toString()

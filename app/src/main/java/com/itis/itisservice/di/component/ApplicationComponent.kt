@@ -28,11 +28,11 @@ interface ApplicationComponent {
 
     fun inject(presenter: SignUpPresenter)
 
+    fun inject(presenter: StartQuizPresenter)
+
     fun inject(presenter: QuizPresenter)
 
     fun inject(presenter: MainPresenter)
-
-    fun inject(presenter: StartQuizPresenter)
 
     fun inject(activity: MainActivity)
 

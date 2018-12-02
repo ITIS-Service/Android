@@ -16,8 +16,8 @@ abstract class BaseFragment : MvpAppCompatFragment() {
     @get:LayoutRes
     protected abstract val mainContentLayout: Int
 
-    val baseActivity: BaseActivity?
-        get() = activity as BaseActivity?
+    val baseActivity: BaseActivity
+        get() = activity as BaseActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(mainContentLayout, container, false)

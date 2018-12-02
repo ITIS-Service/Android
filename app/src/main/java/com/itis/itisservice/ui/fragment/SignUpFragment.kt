@@ -50,8 +50,8 @@ class SignUpFragment : BaseFragment(), SignUpView {
         super.onViewCreated(view, savedInstanceState)
 
         setHasOptionsMenu(true)
-        baseActivity?.setBackArrow(true)
-        baseActivity?.fragmentOnScreen(this)
+        baseActivity.setBackArrow(true)
+        baseActivity.fragmentOnScreen(this)
         btn_to_sign_up.setOnClickListener { onRegisterClicked() }
         edt_email_sign_up.addTextChangedListener(object : TextWatcher {
 
@@ -74,7 +74,7 @@ class SignUpFragment : BaseFragment(), SignUpView {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
             android.R.id.home -> {
-                baseActivity?.onBackPressed()
+                baseActivity.onBackPressed()
                 true
             }
             else -> super.onOptionsItemSelected(item)

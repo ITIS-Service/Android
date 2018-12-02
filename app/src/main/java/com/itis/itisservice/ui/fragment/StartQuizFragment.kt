@@ -9,34 +9,18 @@ import com.itis.itisservice.R
 import com.itis.itisservice.model.Question
 import com.itis.itisservice.mvp.presenter.StartQuizPresenter
 import com.itis.itisservice.mvp.view.StartQuizView
+import com.itis.itisservice.tools.QuizManager
 import com.itis.itisservice.utils.AppPreferencesHelper
 import kotlinx.android.synthetic.main.fragment_start_quiz.*
 import javax.inject.Inject
 
 class StartQuizFragment : BaseFragment(), StartQuizView {
 
-    override fun openQuiz(questions: List<Question>) {
-        baseActivity?.setContent(QuizFragment.newInstance(), true)
-    }
-
-    override fun onCodeInvalid() {
-        Toast.makeText(baseActivity, "Ошибка загрузки данных", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onConnectionError(error: Throwable) {
-        Toast.makeText(baseActivity, error.message, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun showProgress() {
-        progressBar?.visibility = View.VISIBLE
-    }
-
-    override fun hideProgress() {
-        progressBar?.visibility = View.GONE
-    }
-
     @InjectPresenter
     lateinit var presenter: StartQuizPresenter
+
+    @Inject
+    lateinit var quizManager: QuizManager
 
     @Inject
     lateinit var sharedPreferences: AppPreferencesHelper
@@ -54,7 +38,7 @@ class StartQuizFragment : BaseFragment(), StartQuizView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         App.applicationComponent.inject(this)
-        baseActivity?.supportActionBar?.hide()
+        baseActivity.supportActionBar?.hide()
         btn_start_quiz.setOnClickListener { presenter.loadQuestions() }
         btn_skip.setOnClickListener { sharedPreferences.deleteToken() }
     }
@@ -66,4 +50,24 @@ class StartQuizFragment : BaseFragment(), StartQuizView {
         return R.string.screen_name_quiz
     }
 
+    override fun openQuiz(questions: List<Question>) {
+        quizManager.loadQuestions(questions)
+        baseActivity.setContent(QuizFragment.newInstance(0), true)
+    }
+
+    override fun onCodeInvalid() {
+        Toast.makeText(baseActivity, "Ошибка загрузки данных", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onConnectionError(error: Throwable) {
+        Toast.makeText(baseActivity, error.message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showProgress() {
+        progressBar?.visibility = View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        progressBar?.visibility = View.GONE
+    }
 }

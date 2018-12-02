@@ -26,7 +26,7 @@ class ListCoursesFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        baseActivity?.fragmentOnScreen(this)
+        baseActivity.fragmentOnScreen(this)
 
         rv_courses.layoutManager = LinearLayoutManager(baseActivity)
 
