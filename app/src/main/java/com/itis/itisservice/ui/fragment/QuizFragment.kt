@@ -43,7 +43,6 @@ class QuizFragment : BaseFragment(), QuizView {
     }
 
     override fun showAnswers(answers: List<Answer>?) {
-        //btn_answer1.text = answers?.get(0)?.title
         val size = answers?.size ?: 0
         for (i in 0 until size) {
             val params = LinearLayout.LayoutParams(

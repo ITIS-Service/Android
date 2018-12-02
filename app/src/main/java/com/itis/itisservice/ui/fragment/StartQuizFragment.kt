@@ -64,10 +64,10 @@ class StartQuizFragment : BaseFragment(), StartQuizView {
     }
 
     override fun showProgress() {
-        progressBar?.visibility = View.VISIBLE
+        progressBar.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        progressBar?.visibility = View.GONE
+        progressBar.visibility = View.GONE
     }
 }
