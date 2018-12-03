@@ -1,6 +1,7 @@
 package com.itis.itisservice.api
 
 import com.itis.itisservice.model.Answers
+import com.itis.itisservice.model.ListCourses
 import com.itis.itisservice.model.Question
 import com.itis.itisservice.model.User
 import io.reactivex.Observable
@@ -24,4 +25,7 @@ interface UserApi {
 
     @POST("users/answers")
     fun sendAnswers(@Header("Authorization") token: String?, @Body answers: Answers): Single<Response<Void>>
+
+    @GET("users/courses")
+    fun courses(@Header("Authorization") token: String?): Observable<ListCourses>
 }

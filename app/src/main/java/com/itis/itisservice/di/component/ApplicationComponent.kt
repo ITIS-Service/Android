@@ -34,6 +34,8 @@ interface ApplicationComponent {
 
     fun inject(presenter: MainPresenter)
 
+    fun inject(presenter: CourseListPresenter)
+
     fun inject(activity: MainActivity)
 
     fun inject(fragment: StartQuizFragment)

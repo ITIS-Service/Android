@@ -5,7 +5,7 @@ import android.view.ViewGroup
 
 import com.itis.itisservice.R
 import com.itis.itisservice.model.Course
-import com.itis.itisservice.model.ListCourses
+import com.itis.itisservice.model.Courses
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 
@@ -27,7 +27,7 @@ class CourseAdapter(groups: List<ExpandableGroup<*>>) : ExpandableRecyclerViewAd
     }
 
     override fun onBindGroupViewHolder(holder: ListCoursesViewHolder, flatPosition: Int, group: ExpandableGroup<*>) {
-        val courses = group as ListCourses
+        val courses = group as Courses
         holder.bind(courses)
     }
 }

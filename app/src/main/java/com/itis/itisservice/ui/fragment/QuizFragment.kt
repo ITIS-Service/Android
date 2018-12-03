@@ -1,6 +1,7 @@
 package com.itis.itisservice.ui.fragment
 
 import android.os.Bundle
+import android.support.v4.app.FragmentManager
 import android.view.View
 import android.widget.LinearLayout
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -18,52 +19,6 @@ import com.itis.itisservice.utils.toDp
 
 
 class QuizFragment : BaseFragment(), QuizView {
-    override fun onCodeInvalid() {
-        Toast.makeText(baseActivity, "Ошибка отправки ответов на сервер", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onConnectionError(error: Throwable) {
-        Toast.makeText(baseActivity, error.message, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun showProgress() {
-        progressBar.visibility = View.VISIBLE
-    }
-
-    override fun hideProgress() {
-        progressBar.visibility = View.GONE
-    }
-
-    override fun finishQuiz() {
-        baseActivity.setContent(StartQuizFragment.newInstance(), false)
-    }
-
-    override fun showQuestion(question: Question) {
-        tv_question.text = "${numQuestion + 1}.${question.title}"
-    }
-
-    override fun showAnswers(answers: List<Answer>?) {
-        //btn_answer1.text = answers?.get(0)?.title
-        val size = answers?.size ?: 0
-        for (i in 0 until size) {
-            val params = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT)
-            params.setMargins(0, 0, 0, toDp(8, baseActivity))
-
-            val button = Button(baseActivity)
-
-            button.setBackgroundResource(R.drawable.btn_answer_selector)
-            button.setTextColor(ContextCompat.getColor(baseActivity, R.color.white))
-            button.text = answers?.get(i)?.title
-
-            container_answers.addView(button, params)
-            button.setOnClickListener {
-                presenter.writeAnswer(i)
-                presenter.nextQuestion(baseActivity.supportFragmentManager)
-            }
-        }
-    }
 
     private var numQuestion: Int = 0
 
@@ -94,5 +49,53 @@ class QuizFragment : BaseFragment(), QuizView {
 
     override fun onCreateToolbarTitle(): Int {
         return R.string.screen_name_quiz
+    }
+
+    override fun showQuestion(question: Question) {
+        tv_question.text = "${numQuestion + 1}.${question.title}"
+    }
+
+    override fun showAnswers(answers: List<Answer>?) {
+        //btn_answer1.text = answers?.get(0)?.title
+        val size = answers?.size ?: 0
+        for (i in 0 until size) {
+            val params = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT)
+            params.setMargins(0, 0, 0, toDp(8, baseActivity))
+
+            val button = Button(baseActivity)
+
+            button.setBackgroundResource(R.drawable.btn_answer_selector)
+            button.setTextColor(ContextCompat.getColor(baseActivity, R.color.white))
+            button.text = answers?.get(i)?.title
+
+            container_answers.addView(button, params)
+            button.setOnClickListener {
+                presenter.writeAnswer(i)
+                presenter.nextQuestion(baseActivity.myFragmentManager)
+            }
+        }
+    }
+
+    override fun onCodeInvalid() {
+        Toast.makeText(baseActivity, "Ошибка отправки ответов на сервер", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onConnectionError(error: Throwable) {
+        Toast.makeText(baseActivity, error.message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showProgress() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        progressBar.visibility = View.GONE
+    }
+
+    override fun finishQuiz() {
+        baseActivity.myFragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        baseActivity.setContent(CourseListFragment.newInstance(), false)
     }
 }

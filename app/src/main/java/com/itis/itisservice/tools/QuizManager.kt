@@ -1,6 +1,7 @@
 package com.itis.itisservice.tools
 
 import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentTransaction
 import android.util.Log
 import com.itis.itisservice.R
 import com.itis.itisservice.model.Question
@@ -36,8 +37,8 @@ class QuizManager {
         currentNumber++
         val fragment = QuizFragment.newInstance(currentNumber)
         val transaction = fragmentManager?.beginTransaction()
-        transaction?.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_in_left, R.anim.slide_out_left, R.anim.slide_out_right)
+        transaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
         transaction?.addToBackStack(null)
-        transaction?.add(R.id.main_wrapper, fragment)?.commit()
+        transaction?.replace(R.id.main_wrapper, fragment)?.commit()
     }
 }

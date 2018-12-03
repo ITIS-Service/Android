@@ -57,11 +57,11 @@ abstract class BaseActivity : MvpAppCompatActivity() {
 
     fun setContent(fragment: BaseFragment, addToBackStack: Boolean) {
         val fragmentTransaction = myFragmentManager?.beginTransaction()
-        fragmentTransaction?.replace(R.id.main_wrapper, fragment)
+        fragmentTransaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         if (addToBackStack) {
-            fragmentTransaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             fragmentTransaction?.addToBackStack(null)
         }
+        fragmentTransaction?.replace(R.id.main_wrapper, fragment)
         fragmentTransaction?.commit()
     }
 }

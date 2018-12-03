@@ -2,6 +2,7 @@ package com.itis.itisservice.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import io.realm.RealmObject
 
 open class Course(var id: Int = 0,
 
@@ -17,7 +18,7 @@ open class Course(var id: Int = 0,
 
                   var lesson_place: String? = null,
 
-                  var status: String? = null) : Parcelable {
+                  var status: String? = null) : RealmObject(), Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readInt(),

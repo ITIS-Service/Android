@@ -1,5 +1,12 @@
 package com.itis.itisservice.model
 
-import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
+import io.realm.RealmList
+import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
 
-class ListCourses(title: String, items: List<Course>) : ExpandableGroup<Course>(title, items)
+open class ListCourses(
+        @PrimaryKey
+        var id: Long? = null,
+        var allCourses: RealmList<Course>? = null,
+        var suggestedCourses: RealmList<Course>? = null,
+        var userCourses: RealmList<Course>? = null) : RealmObject()

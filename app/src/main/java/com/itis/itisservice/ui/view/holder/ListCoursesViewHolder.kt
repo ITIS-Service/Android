@@ -2,7 +2,7 @@ package com.itis.itisservice.ui.view.holder
 
 import android.view.View
 
-import com.itis.itisservice.model.ListCourses
+import com.itis.itisservice.model.Courses
 import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder
 import kotlinx.android.synthetic.main.item_list_courses.view.*
 import android.view.animation.Animation.RELATIVE_TO_SELF
@@ -11,7 +11,7 @@ import android.view.animation.RotateAnimation
 
 class ListCoursesViewHolder(itemView: View) : GroupViewHolder(itemView) {
 
-    fun bind(item: ListCourses) = with(itemView) {
+    fun bind(item: Courses) = with(itemView) {
         tv_list_courses_name.text = item.title
     }
 
