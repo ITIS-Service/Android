@@ -95,6 +95,7 @@ class QuizFragment : BaseFragment(), QuizView {
     }
 
     override fun finishQuiz() {
+        // todo fix this back stack
         baseActivity.myFragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         baseActivity.setContent(CourseListFragment.newInstance(), false)
     }

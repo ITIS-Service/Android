@@ -36,8 +36,7 @@ class CourseListPresenter : MvpPresenter<CourseListView>() {
                 .courses(sharedPreferences.getAccessToken())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    viewState.showAllCourses(it.allCourses as? List<Course>)
-                    viewState.showSuggestedCourses(it.suggestedCourses as? List<Course>)
+                    viewState.showCourses(it)
                 }, { error -> viewState.onConnectionError(error) })
         )
     }

@@ -1,6 +1,7 @@
 package com.itis.itisservice.ui.fragment
 
 import android.os.Bundle
+import android.support.v4.app.FragmentManager
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.Toast
@@ -8,13 +9,19 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.itis.itisservice.R
 import com.itis.itisservice.model.Course
 import com.itis.itisservice.model.Courses
+import com.itis.itisservice.model.ListCourses
 import com.itis.itisservice.mvp.presenter.CourseListPresenter
 import com.itis.itisservice.mvp.view.CourseListView
 import com.itis.itisservice.ui.view.holder.CourseAdapter
-import kotlinx.android.synthetic.main.fragment_list_courses.*
+import kotlinx.android.synthetic.main.fragment_course_list.*
 
 
-class CourseListFragment : BaseFragment(), CourseListView {
+class CourseListFragment : BaseFragment(), CourseListView, CourseAdapter.OnItemClickListener {
+
+    override fun onItemClick(item: Course) {
+        Toast.makeText(baseActivity, item.name, Toast.LENGTH_SHORT).show()
+        baseActivity.setContent(CourseFragment.newInstance(), true)
+    }
 
     @InjectPresenter
     lateinit var presenter: CourseListPresenter
@@ -36,44 +43,32 @@ class CourseListFragment : BaseFragment(), CourseListView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         baseActivity.fragmentOnScreen(this)
+        baseActivity.supportActionBar?.show()
 
         rv_courses.layoutManager = LinearLayoutManager(baseActivity)
-
-
-        /*allCourses.add(Course(0, "Mобильная разработка (iOS)", "Программист iOS создаёт игры и приложения для устройств " +
-                "компании Apple. Разработки для этой операционной системы — самые доходные на мобильном рынке."))
-        allCourses.add(Course(1, "Анализ Данных", "Курс предназначен для программистов и " +
-                "аналитиков, которых интересует область машинного обучения и анализа данных."))
-        allCourses.add(Course(1, "Анализ Данных", "Курс предназначен для программистов и " +
-                "аналитиков, которых интересует область машинного обучения и анализа данных."))
-        allCourses.add(Course(1, "Анализ Данных", "Курс предназначен для программистов и " +
-                "аналитиков, которых интересует область машинного обучения и анализа данных."))
-
-        suggestedCourses.add(Course(3, "Mобильная разработка (Android)", "Разработка под Android — это создание игр и полезных приложений под 80% мобильных устройств. Android — открытая и свободная система, " +
-                "настроенная к модернизации и адаптации, она позволяет реализовать самые смелые фантазии программиста."))*/
-
     }
 
     override val mainContentLayout: Int
-        get() = R.layout.fragment_list_courses
+        get() = R.layout.fragment_course_list
 
     override fun onCreateToolbarTitle(): Int {
         return R.string.screen_name_courses
     }
 
-    override fun showAllCourses(courses: List<Course>?) {
+    override fun showCourses(courses: ListCourses) {
+        courseList.clear()
         allCourses.clear()
-        courses?.let { allCourses.addAll(it) }
-        courseList.add(Courses("Все курсы", allCourses))
-    }
-
-    override fun showSuggestedCourses(courses: List<Course>?) {
         suggestedCourses.clear()
-        courses?.let { suggestedCourses.addAll(it) }
+        courses.allCourses?.let { allCourses.addAll(it) }
+        if (courses.suggestedCourses?.size == 0) {
+            suggestedCourses.add(Course(name = "Нет предложенных курсов"))
+        }
+        courses.suggestedCourses?.let { suggestedCourses.addAll(it) }
+        courseList.add(Courses("Все курсы", allCourses))
         courseList.add(Courses("Предложенные курсы", suggestedCourses))
-        adapter = CourseAdapter(courseList)
+
+        adapter = CourseAdapter(courseList, this)
         rv_courses.adapter = adapter
     }
 

@@ -1,6 +1,7 @@
 package com.itis.itisservice.ui.fragment
 
 import android.os.Bundle
+import android.support.v4.app.FragmentTransaction
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -107,7 +108,7 @@ class SignInFragment : BaseFragment(), SignInView {
     }
 
     private fun setOnClickListeners() {
-        btn_link_to_sign_up.setOnClickListener { baseActivity.setContent(SignUpFragment.newInstance(), true) }
+        btn_link_to_sign_up.setOnClickListener { baseActivity.setContent(SignUpFragment.newInstance(), true, FragmentTransaction.TRANSIT_FRAGMENT_OPEN) }
         btn_to_sign_in.setOnClickListener {
             val email = edt_email.text.toString()
             val password = edt_password.text.toString()

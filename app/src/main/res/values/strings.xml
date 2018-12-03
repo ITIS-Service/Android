@@ -8,6 +8,7 @@
     <string name="screen_name_courses">Курсы</string>
     <string name="screen_name_sign_up">Регистрация</string>
     <string name="screen_name_quiz">Опрос</string>
+    <string name="screen_name_course">Курс</string>
 
     <string name="hint_email">Email</string>
     <string name="hint_password">Пароль</string>

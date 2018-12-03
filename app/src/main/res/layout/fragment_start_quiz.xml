@@ -15,6 +15,7 @@
         android:layout_marginTop="52dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:lineSpacingExtra="8sp"
         android:text="@string/quiz_description"
         android:textAlignment="center"
         android:textColor="@color/colorDefaultWhite"

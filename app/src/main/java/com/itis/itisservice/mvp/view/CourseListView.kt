@@ -1,8 +1,7 @@
 package com.itis.itisservice.mvp.view
 
-import com.itis.itisservice.model.Course
+import com.itis.itisservice.model.ListCourses
 
 interface CourseListView : BaseView {
-    fun showAllCourses(courses: List<Course>?)
-    fun showSuggestedCourses(courses: List<Course>?)
+    fun showCourses(courses: ListCourses)
 }

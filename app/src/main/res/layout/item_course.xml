@@ -36,6 +36,6 @@
         android:layout_height="1dp"
         android:layout_marginTop="@dimen/d2"
         android:layout_marginBottom="@dimen/d1"
-        android:background="@color/colorDefaultWhite" />
+        android:background="@color/grey" />
 
 </LinearLayout>

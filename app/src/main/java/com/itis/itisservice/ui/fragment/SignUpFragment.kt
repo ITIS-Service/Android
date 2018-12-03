@@ -116,7 +116,7 @@ class SignUpFragment : BaseFragment(), SignUpView {
     }
 
     override fun onRegistrationSuccess() {
-        baseActivity?.onBackPressed()
+        baseActivity.onBackPressed()
     }
 
     override fun onConnectionError(error: Throwable) {
