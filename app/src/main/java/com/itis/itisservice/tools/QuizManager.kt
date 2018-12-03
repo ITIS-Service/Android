@@ -39,6 +39,6 @@ class QuizManager {
         val transaction = fragmentManager?.beginTransaction()
         transaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
         transaction?.addToBackStack(null)
-        transaction?.add(R.id.main_wrapper, fragment)?.commit()
+        transaction?.replace(R.id.main_wrapper, fragment)?.commit()
     }
 }
