@@ -15,7 +15,11 @@ import kotlinx.android.synthetic.main.fragment_quiz.*
 import android.support.v4.content.ContextCompat
 import android.widget.Button
 import android.widget.Toast
+import com.itis.itisservice.ui.activity.MainActivity
+import com.itis.itisservice.utils.hide
 import com.itis.itisservice.utils.toDp
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_sign_up.*
 
 
 class QuizFragment : BaseFragment(), QuizView {
@@ -62,7 +66,7 @@ class QuizFragment : BaseFragment(), QuizView {
             val params = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT)
-            params.setMargins(0, 0, 0, toDp(8, baseActivity))
+            params.setMargins(toDp(8, baseActivity), 0, toDp(8, baseActivity), toDp(16, baseActivity))
 
             val button = Button(baseActivity)
 
@@ -87,16 +91,16 @@ class QuizFragment : BaseFragment(), QuizView {
     }
 
     override fun showProgress() {
-        progressBar.visibility = View.VISIBLE
+        (activity as? MainActivity)?.progressBar2?.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        progressBar.visibility = View.GONE
+        (activity as? MainActivity)?.progressBar2?.visibility = View.GONE
     }
 
     override fun finishQuiz() {
         // todo fix this back stack
         baseActivity.myFragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        baseActivity.setContent(CourseListFragment.newInstance(), false)
+        baseActivity.setContent(CourseListFragment.newInstance(), true)
     }
 }

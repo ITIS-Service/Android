@@ -3,22 +3,25 @@ package com.itis.itisservice.model
 import android.os.Parcel
 import android.os.Parcelable
 import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
 
-open class Course(var id: Int = 0,
+open class Course(
+        @PrimaryKey
+        var id: Int = 0,
 
-                  var name: String? = null,
+        var name: String? = null,
 
-                  var description: String? = null,
+        var description: String? = null,
 
-                  var teacher_id: Int = 0,
+        var courseNumber: Int = 0,
 
-                  var teacher_full_name: String? = null,
+        var place: String? = null,
 
-                  var lesson_time: String? = null,
+        var signUpOpen: Boolean = true,
 
-                  var lesson_place: String? = null,
+        var teacher: Teacher? = null,
 
-                  var status: String? = null) : RealmObject(), Parcelable {
+        var userCourseStatus: String? = null) : RealmObject(), Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readInt(),
@@ -26,19 +29,19 @@ open class Course(var id: Int = 0,
             parcel.readString(),
             parcel.readInt(),
             parcel.readString(),
-            parcel.readString(),
-            parcel.readString(),
+            parcel.readByte() != 0.toByte(),
+            parcel.readParcelable<Teacher>(Teacher::class.java.classLoader),
             parcel.readString())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(id)
         parcel.writeString(name)
         parcel.writeString(description)
-        parcel.writeInt(teacher_id)
-        parcel.writeString(teacher_full_name)
-        parcel.writeString(lesson_time)
-        parcel.writeString(lesson_place)
-        parcel.writeString(status)
+        parcel.writeInt(courseNumber)
+        parcel.writeString(place)
+        parcel.writeByte(if (signUpOpen) 1 else 0)
+        parcel.writeParcelable(teacher, flags)
+        parcel.writeString(userCourseStatus)
     }
 
     override fun describeContents(): Int {
@@ -55,3 +58,4 @@ open class Course(var id: Int = 0,
         }
     }
 }
+

@@ -7,4 +7,6 @@ object Constants {
     const val SHARED_PREF_NAME = "shPref"
 
     const val NUM_QUESTION_KEY = "num_question"
+    const val COURSE_ITEM = "course_item"
+    const val COURSE_ID = "course_id"
 }

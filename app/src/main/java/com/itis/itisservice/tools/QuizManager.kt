@@ -21,7 +21,7 @@ class QuizManager {
 
     fun writeAnswer(index: Int) {
         val currentQuestion = questions[currentNumber]
-        answers[currentQuestion.id.toString()] = currentQuestion.answers?.get(index)?.id?.toInt()
+        answers[currentQuestion.id.toString()] = currentQuestion.answers?.get(index)?.id
         Log.d("answers" + index.toString(), answers[currentQuestion.id.toString()].toString())
     }
 
@@ -39,6 +39,6 @@ class QuizManager {
         val transaction = fragmentManager?.beginTransaction()
         transaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
         transaction?.addToBackStack(null)
-        transaction?.replace(R.id.main_wrapper, fragment)?.commit()
+        transaction?.replace(R.id.main_wrapper, fragment, "QuizFragment$currentNumber")?.commit()
     }
 }

@@ -24,7 +24,7 @@ abstract class BaseActivity : MvpAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_base)
+        setContentView(mainContentLayout)
 
         Fabric.with(this, Crashlytics())
 
@@ -32,14 +32,14 @@ abstract class BaseActivity : MvpAppCompatActivity() {
 
         myFragmentManager = supportFragmentManager
 
-        layoutInflater.inflate(mainContentLayout, main_wrapper)
+//        layoutInflater.inflate(mainContentLayout, main_wrapper)
     }
 
     fun fragmentOnScreen(fragment: BaseFragment) {
         setToolbarTitle(fragment.createToolbarTitle(this))
     }
 
-    private fun setToolbarTitle(title: String) {
+    fun setToolbarTitle(title: String) {
         if (supportActionBar != null) {
             supportActionBar?.setDisplayShowTitleEnabled(false)
             toolbar_title.text = title

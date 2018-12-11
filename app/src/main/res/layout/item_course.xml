@@ -25,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/d1"
+        android:maxLines="5"
         android:text="Описание"
         android:textColor="@color/colorDefaultWhite"
         android:textSize="14sp"

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorBackground">
+
+    <TextView
+        android:layout_marginTop="@dimen/d2"
+        android:id="@+id/tv_point_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="Домашняя Работа" />
+
+    <TextView
+        android:id="@+id/tv_point_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_point_title"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="@dimen/d1"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        tools:text="Выполнены все задания" />
+
+    <TextView
+        android:id="@+id/tv_points"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_point_title"
+        android:layout_alignParentEnd="true"
+        android:textStyle="bold"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="0dp"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        tools:text="+3" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/tv_point_description"
+        android:layout_marginTop="16dp"
+        android:background="@color/grey" />
+
+</RelativeLayout>

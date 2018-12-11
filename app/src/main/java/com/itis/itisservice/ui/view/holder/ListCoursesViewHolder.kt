@@ -2,7 +2,7 @@ package com.itis.itisservice.ui.view.holder
 
 import android.view.View
 
-import com.itis.itisservice.model.Courses
+import com.itis.itisservice.model.view.Courses
 import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder
 import kotlinx.android.synthetic.main.item_list_courses.view.*
 import android.view.animation.Animation.RELATIVE_TO_SELF

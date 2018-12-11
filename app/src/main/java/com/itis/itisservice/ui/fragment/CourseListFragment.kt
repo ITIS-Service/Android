@@ -1,27 +1,23 @@
 package com.itis.itisservice.ui.fragment
 
 import android.os.Bundle
-import android.support.v4.app.FragmentManager
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.Toast
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.itis.itisservice.R
 import com.itis.itisservice.model.Course
-import com.itis.itisservice.model.Courses
-import com.itis.itisservice.model.ListCourses
+import com.itis.itisservice.model.view.Courses
+import com.itis.itisservice.model.view.ListCourses
 import com.itis.itisservice.mvp.presenter.CourseListPresenter
 import com.itis.itisservice.mvp.view.CourseListView
+import com.itis.itisservice.ui.activity.MainActivity
 import com.itis.itisservice.ui.view.holder.CourseAdapter
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_course_list.*
 
 
-class CourseListFragment : BaseFragment(), CourseListView, CourseAdapter.OnItemClickListener {
-
-    override fun onItemClick(item: Course) {
-        Toast.makeText(baseActivity, item.name, Toast.LENGTH_SHORT).show()
-        baseActivity.setContent(CourseFragment.newInstance(), true)
-    }
+class CourseListFragment : BaseFragment(), CourseListView {
 
     @InjectPresenter
     lateinit var presenter: CourseListPresenter
@@ -30,6 +26,7 @@ class CourseListFragment : BaseFragment(), CourseListView, CourseAdapter.OnItemC
 
     private val courseList: MutableList<Courses> = ArrayList()
     private val allCourses: MutableList<Course> = ArrayList()
+    private val myCourses: MutableList<Course> = ArrayList()
     private val suggestedCourses: MutableList<Course> = ArrayList()
 
     companion object {
@@ -43,6 +40,7 @@ class CourseListFragment : BaseFragment(), CourseListView, CourseAdapter.OnItemC
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        baseActivity.setBackArrow(false)
         baseActivity.fragmentOnScreen(this)
         baseActivity.supportActionBar?.show()
 
@@ -56,19 +54,29 @@ class CourseListFragment : BaseFragment(), CourseListView, CourseAdapter.OnItemC
         return R.string.screen_name_courses
     }
 
+    override fun showDetails(item: Course) {
+        baseActivity.setContent(CourseFragment.newInstance(item), true)
+    }
+
     override fun showCourses(courses: ListCourses) {
         courseList.clear()
         allCourses.clear()
+        myCourses.clear()
         suggestedCourses.clear()
+        courses.userCourses?.let { myCourses.addAll(it) }
         courses.allCourses?.let { allCourses.addAll(it) }
         if (courses.suggestedCourses?.size == 0) {
             suggestedCourses.add(Course(name = "Нет предложенных курсов"))
         }
+        if (courses.userCourses?.size == 0) {
+            suggestedCourses.add(Course(name = "Нет моих курсов"))
+        }
         courses.suggestedCourses?.let { suggestedCourses.addAll(it) }
+        courseList.add(Courses("Мои курсы", myCourses))
         courseList.add(Courses("Все курсы", allCourses))
         courseList.add(Courses("Предложенные курсы", suggestedCourses))
 
-        adapter = CourseAdapter(courseList, this)
+        adapter = CourseAdapter(courseList) { onItemClick(it) }
         rv_courses.adapter = adapter
     }
 
@@ -81,10 +89,14 @@ class CourseListFragment : BaseFragment(), CourseListView, CourseAdapter.OnItemC
     }
 
     override fun showProgress() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        (activity as? MainActivity)?.progressBar2?.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        (activity as? MainActivity)?.progressBar2?.visibility = View.GONE
+    }
+
+    private fun onItemClick(item: Course) {
+        presenter.onItemClick(item)
     }
 }

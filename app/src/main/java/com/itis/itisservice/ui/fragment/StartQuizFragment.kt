@@ -2,8 +2,10 @@ package com.itis.itisservice.ui.fragment
 
 import android.os.Bundle
 import android.support.v4.app.FragmentTransaction
+import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.Toast
+import com.afollestad.materialdialogs.MaterialDialog
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.itis.itisservice.App
 import com.itis.itisservice.R
@@ -11,7 +13,10 @@ import com.itis.itisservice.model.Question
 import com.itis.itisservice.mvp.presenter.StartQuizPresenter
 import com.itis.itisservice.mvp.view.StartQuizView
 import com.itis.itisservice.tools.QuizManager
+import com.itis.itisservice.ui.activity.MainActivity
 import com.itis.itisservice.utils.AppPreferencesHelper
+import kotlinx.android.synthetic.main.activity_base.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_start_quiz.*
 import javax.inject.Inject
 
@@ -39,7 +44,9 @@ class StartQuizFragment : BaseFragment(), StartQuizView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         App.applicationComponent.inject(this)
+        baseActivity.setBackArrow(false)
         baseActivity.supportActionBar?.hide()
+
         btn_start_quiz.setOnClickListener { presenter.loadQuestions() }
         btn_skip.setOnClickListener { sharedPreferences.deleteToken() }
     }
@@ -65,10 +72,10 @@ class StartQuizFragment : BaseFragment(), StartQuizView {
     }
 
     override fun showProgress() {
-        progressBar?.visibility = View.VISIBLE
+        (activity as? MainActivity)?.progressBar2?.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        progressBar?.visibility = View.GONE
+        (activity as? MainActivity)?.progressBar2?.visibility = View.GONE
     }
 }

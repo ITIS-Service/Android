@@ -4,15 +4,14 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.itis.itisservice.App
 import com.itis.itisservice.api.UserApi
-import com.itis.itisservice.model.Course
-import com.itis.itisservice.mvp.view.CourseListView
+import com.itis.itisservice.mvp.view.CourseView
 import com.itis.itisservice.utils.AppPreferencesHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 @InjectViewState
-class CourseListPresenter : MvpPresenter<CourseListView>() {
+class CoursePresenter : MvpPresenter<CourseView>() {
 
     @Inject
     lateinit var sharedPreferences: AppPreferencesHelper
@@ -26,26 +25,9 @@ class CourseListPresenter : MvpPresenter<CourseListView>() {
         App.applicationComponent.inject(this)
     }
 
-    override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
-        loadCourses()
-    }
-
-    private fun loadCourses() {
+    fun signUp(id: Int? ) {
         compositeDisposable.add(userApi
-                .courses(sharedPreferences.getAccessToken())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { viewState.showProgress() }
-                .doAfterTerminate { viewState.hideProgress() }
-                .subscribe({
-                    viewState.showCourses(it)
-                }, { error -> viewState.onConnectionError(error) })
-        )
-    }
-
-    private fun loadCourse(id: Int?) {
-        compositeDisposable.add(userApi
-                .course(sharedPreferences.getAccessToken(), id)
+                .signUpCourse(sharedPreferences.getAccessToken(), id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { viewState.showProgress() }
                 .doAfterTerminate { viewState.hideProgress() }
@@ -53,11 +35,6 @@ class CourseListPresenter : MvpPresenter<CourseListView>() {
                     viewState.showDetails(it)
                 }, { error -> viewState.onConnectionError(error) })
         )
-    }
-
-    fun onItemClick(item: Course) {
-        loadCourse(item.id)
-//        viewState.showDetails(item)
     }
 
     override fun onDestroy() {

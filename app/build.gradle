@@ -118,6 +118,12 @@ dependencies {
         transitive = true
     }
 
+    //Material Dialog
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+
+    //Dialogs
+    implementation 'com.gdacciaro:iosdialog:1.0.3'
+
     //Test
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

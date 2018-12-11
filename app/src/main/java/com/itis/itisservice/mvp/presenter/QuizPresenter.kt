@@ -78,8 +78,6 @@ class QuizPresenter : MvpPresenter<QuizView>() {
     private fun loadQuestion() {
         val question = quizManager.getQuestion()
         viewState.showQuestion(question)
-
-        //todo move to one method
         viewState.showAnswers(question.answers as? List<Answer>)
     }
 

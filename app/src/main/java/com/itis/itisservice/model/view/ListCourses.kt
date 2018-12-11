@@ -1,5 +1,6 @@
-package com.itis.itisservice.model
+package com.itis.itisservice.model.view
 
+import com.itis.itisservice.model.Course
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
