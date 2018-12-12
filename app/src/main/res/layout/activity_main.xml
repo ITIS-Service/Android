@@ -1,27 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:background="@color/colorBackground"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.MainActivity">
 
-    <ProgressBar
-        android:id="@+id/progressBar2"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:visibility="gone"
-        tools:visibility="visible"
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:layout_marginTop="-6dp"/>
+        android:layout_alignParentBottom="true"
+        android:background="@color/item_background"
+        app:itemIconTint="@drawable/selector_bottom_bar_item"
+        app:itemTextColor="@drawable/selector_bottom_bar_text"
+        app:menu="@menu/bottom_bar_menu"/>
 
-    <include layout="@layout/toolbar_layout" />
-
-    <FrameLayout
-        android:id="@+id/main_wrapper"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorBackground" />
-
-</LinearLayout>
+</RelativeLayout>

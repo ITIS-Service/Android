@@ -11,12 +11,9 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.itis.itisservice.R
 import com.itis.itisservice.mvp.presenter.SignInPresenter
 import com.itis.itisservice.mvp.view.SignInView
-import com.itis.itisservice.ui.activity.BaseActivity
-import com.itis.itisservice.ui.activity.MainActivity
 import com.itis.itisservice.utils.hide
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.fragment_login.*
-import kotlinx.android.synthetic.main.fragment_sign_up.*
 
 class SignInFragment : BaseFragment(), SignInView {
 
@@ -90,11 +87,11 @@ class SignInFragment : BaseFragment(), SignInView {
 
     override fun showProgress() {
         hide(linear_layout_container_sign_in)
-        (activity as? MainActivity)?.progressBar2?.visibility = View.VISIBLE
+        baseActivity.progressBar2?.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        (activity as? MainActivity)?.progressBar2?.visibility = View.GONE
+        baseActivity.progressBar2?.visibility = View.GONE
     }
 
     override fun enableLoginButton() {

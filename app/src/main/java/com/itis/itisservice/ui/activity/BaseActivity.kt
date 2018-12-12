@@ -24,7 +24,7 @@ abstract class BaseActivity : MvpAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(mainContentLayout)
+        setContentView(R.layout.activity_base)
 
         Fabric.with(this, Crashlytics())
 
@@ -32,7 +32,7 @@ abstract class BaseActivity : MvpAppCompatActivity() {
 
         myFragmentManager = supportFragmentManager
 
-//        layoutInflater.inflate(mainContentLayout, main_wrapper)
+        layoutInflater.inflate(mainContentLayout, main_wrapper)
     }
 
     fun fragmentOnScreen(fragment: BaseFragment) {
@@ -63,5 +63,9 @@ abstract class BaseActivity : MvpAppCompatActivity() {
         }
         fragmentTransaction?.replace(R.id.main_wrapper, fragment)
         fragmentTransaction?.commit()
+    }
+
+    fun clearFragmentsStack() {
+        myFragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 }

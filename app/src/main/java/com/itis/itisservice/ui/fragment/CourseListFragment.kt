@@ -11,9 +11,8 @@ import com.itis.itisservice.model.view.Courses
 import com.itis.itisservice.model.view.ListCourses
 import com.itis.itisservice.mvp.presenter.CourseListPresenter
 import com.itis.itisservice.mvp.view.CourseListView
-import com.itis.itisservice.ui.activity.MainActivity
 import com.itis.itisservice.ui.view.holder.CourseAdapter
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.fragment_course_list.*
 
 
@@ -89,11 +88,11 @@ class CourseListFragment : BaseFragment(), CourseListView {
     }
 
     override fun showProgress() {
-        (activity as? MainActivity)?.progressBar2?.visibility = View.VISIBLE
+        baseActivity.progressBar2?.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        (activity as? MainActivity)?.progressBar2?.visibility = View.GONE
+        baseActivity.progressBar2?.visibility = View.GONE
     }
 
     private fun onItemClick(item: Course) {

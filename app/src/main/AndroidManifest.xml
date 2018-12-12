@@ -14,13 +14,17 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name=".ui.activity.StartActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"></action>
                 <category android:name="android.intent.category.LAUNCHER"></category>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:screenOrientation="portrait" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="84b43719c243f9703c84a3eca3db377dba58256e" />

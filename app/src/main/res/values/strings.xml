@@ -4,13 +4,16 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    //screen name
     <string name="screen_name_sign_in">Вход</string>
     <string name="screen_name_courses">Курсы</string>
     <string name="screen_name_sign_up">Регистрация</string>
     <string name="screen_name_quiz">Опрос</string>
     <string name="screen_name_course">Курс</string>
     <string name="screen_name_progress">Успеваемость</string>
+    <string name="screen_name_settings">Настройки</string>
 
+    //text fields
     <string name="hint_email">Почта</string>
     <string name="hint_password">Пароль</string>
     <string name="hint_confirm_password">Подтвердите пароль</string>
@@ -29,12 +32,18 @@
     <string name="info_block">Информация</string>
     <string name="settings_block">Настройки</string>
     <string name="btn_account">Аккаунт</string>
-    
+
+    //dialog
     <string name="dialog_title">Запись на курс</string>
     <string name="dialog_subtitle">Подтверждение записи на курс</string>
     <string name="ok">Подтвердить</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
     <string name="dismiss">Отмена</string>
     <string name="total">Итого:</string>
+
+    <string name="item_name_courses">Курсы</string>
+    <string name="item_name_settings">Настройки</string>
 
     <string-array name="questions">
         <item>1.Какой язык программирования вам нравится или хотели бы изучить?</item>

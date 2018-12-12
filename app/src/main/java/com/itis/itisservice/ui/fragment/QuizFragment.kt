@@ -1,5 +1,6 @@
 package com.itis.itisservice.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.FragmentManager
 import android.view.View
@@ -16,10 +17,8 @@ import android.support.v4.content.ContextCompat
 import android.widget.Button
 import android.widget.Toast
 import com.itis.itisservice.ui.activity.MainActivity
-import com.itis.itisservice.utils.hide
 import com.itis.itisservice.utils.toDp
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_sign_up.*
+import kotlinx.android.synthetic.main.activity_base.*
 
 
 class QuizFragment : BaseFragment(), QuizView {
@@ -91,16 +90,19 @@ class QuizFragment : BaseFragment(), QuizView {
     }
 
     override fun showProgress() {
-        (activity as? MainActivity)?.progressBar2?.visibility = View.VISIBLE
+        baseActivity.progressBar2?.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        (activity as? MainActivity)?.progressBar2?.visibility = View.GONE
+        baseActivity.progressBar2?.visibility = View.GONE
     }
 
     override fun finishQuiz() {
         // todo fix this back stack
-        baseActivity.myFragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        baseActivity.setContent(CourseListFragment.newInstance(), true)
+//        baseActivity.clearFragmentsStack()
+//        baseActivity.setContent(CourseListFragment.newInstance(), true)
+        val intent = Intent(baseActivity, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
     }
 }

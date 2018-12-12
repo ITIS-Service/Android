@@ -10,7 +10,8 @@ import com.itis.itisservice.di.module.ApiModule
 import com.itis.itisservice.di.module.PreferencesModule
 import com.itis.itisservice.di.module.ValidationModule
 import com.itis.itisservice.mvp.presenter.*
-import com.itis.itisservice.ui.activity.MainActivity
+import com.itis.itisservice.ui.activity.StartActivity
+import com.itis.itisservice.ui.fragment.SettingsFragment
 import com.itis.itisservice.ui.fragment.StartQuizFragment
 
 
@@ -32,7 +33,7 @@ interface ApplicationComponent {
 
     fun inject(presenter: QuizPresenter)
 
-    fun inject(presenter: MainPresenter)
+    fun inject(presenter: StartPresenter)
 
     fun inject(presenter: CourseListPresenter)
 
@@ -40,7 +41,9 @@ interface ApplicationComponent {
 
     fun inject(presenter: ProgressPresenter)
 
-    fun inject(activity: MainActivity)
+    fun inject(activity: StartActivity)
 
     fun inject(fragment: StartQuizFragment)
+
+    fun inject(fragment: SettingsFragment)
 }

@@ -2,8 +2,6 @@ package com.itis.itisservice.ui.fragment
 
 import android.os.Bundle
 import android.text.TextWatcher
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -17,9 +15,7 @@ import kotlinx.android.synthetic.main.fragment_sign_up.*
 import android.text.Editable
 import android.widget.Toast
 import com.itis.itisservice.model.User
-import com.itis.itisservice.ui.activity.MainActivity
-import kotlinx.android.synthetic.main.activity_main.*
-
+import kotlinx.android.synthetic.main.activity_base.*
 
 class SignUpFragment : BaseFragment(), SignUpView {
 
@@ -131,11 +127,11 @@ class SignUpFragment : BaseFragment(), SignUpView {
 
     override fun showProgress() {
         hide(linear_layout_container_sign_up)
-        (activity as? MainActivity)?.progressBar2?.visibility = View.VISIBLE
+        baseActivity.progressBar2?.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        (activity as? MainActivity)?.progressBar2?.visibility = View.GONE
+        baseActivity.progressBar2?.visibility = View.GONE
     }
 
     private fun validateFields() {

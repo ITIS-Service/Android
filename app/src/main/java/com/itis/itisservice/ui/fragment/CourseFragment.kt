@@ -18,8 +18,8 @@ import android.net.Uri
 import android.text.style.ClickableSpan
 import android.text.SpannableString
 import android.app.AlertDialog
-import com.itis.itisservice.ui.activity.MainActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import com.itis.itisservice.ui.activity.BaseActivity
+import kotlinx.android.synthetic.main.activity_base.*
 
 
 class CourseFragment : BaseFragment(), CourseView {
@@ -74,11 +74,11 @@ class CourseFragment : BaseFragment(), CourseView {
     }
 
     override fun showProgress() {
-        (activity as? MainActivity)?.progressBar2?.visibility = View.VISIBLE
+        baseActivity.progressBar2?.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        (activity as? MainActivity)?.progressBar2?.visibility = View.GONE
+        baseActivity.progressBar2?.visibility = View.GONE
     }
 
     private fun showDescriptionCourse(course: Course) {
