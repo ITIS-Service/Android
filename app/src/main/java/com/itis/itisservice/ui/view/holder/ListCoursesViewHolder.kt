@@ -8,14 +8,13 @@ import kotlinx.android.synthetic.main.item_list_courses.view.*
 import android.view.animation.Animation.RELATIVE_TO_SELF
 import android.view.animation.RotateAnimation
 
-
 class ListCoursesViewHolder(itemView: View) : GroupViewHolder(itemView) {
 
     fun bind(item: Courses) = with(itemView) {
         tv_list_courses_name.text = item.title
     }
 
-    override fun expand() {
+    /*override fun expand() {
         animateExpand()
     }
 
@@ -35,5 +34,5 @@ class ListCoursesViewHolder(itemView: View) : GroupViewHolder(itemView) {
         rotate.duration = 300
         rotate.fillAfter = true
         iv_arrow.animation = rotate
-    }
+    }*/
 }

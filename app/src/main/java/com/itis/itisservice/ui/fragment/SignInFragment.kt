@@ -94,6 +94,11 @@ class SignInFragment : BaseFragment(), SignInView {
         baseActivity.progressBar2?.visibility = View.GONE
     }
 
+    override fun onStop() {
+        super.onStop()
+        baseActivity.progressBar2?.visibility = View.GONE
+    }
+
     override fun enableLoginButton() {
         btn_to_sign_in.isEnabled = true
     }

@@ -84,6 +84,11 @@ class ProgressFragment : BaseFragment(), ProgressView {
         baseActivity.progressBar2?.visibility = View.GONE
     }
 
+    override fun onStop() {
+        super.onStop()
+        baseActivity.progressBar2?.visibility = View.GONE
+    }
+
     private fun setUpRecyclerView() {
         adapter = PointAdapter()
         rv_list_points.layoutManager = LinearLayoutManager(baseActivity)

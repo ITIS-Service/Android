@@ -41,6 +41,7 @@ class SignUpFragment : BaseFragment(), SignUpView {
 
     override fun onStop() {
         super.onStop()
+        baseActivity.progressBar2?.visibility = View.GONE
         if (!disposable.isDisposed) disposable.clear()
     }
 

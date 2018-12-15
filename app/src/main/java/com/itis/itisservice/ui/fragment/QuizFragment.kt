@@ -97,6 +97,11 @@ class QuizFragment : BaseFragment(), QuizView {
         baseActivity.progressBar2?.visibility = View.GONE
     }
 
+    override fun onStop() {
+        super.onStop()
+        baseActivity.progressBar2?.visibility = View.GONE
+    }
+
     override fun finishQuiz() {
         // todo fix this back stack
 //        baseActivity.clearFragmentsStack()

@@ -21,7 +21,7 @@ class CourseListFragment : BaseFragment(), CourseListView {
     @InjectPresenter
     lateinit var presenter: CourseListPresenter
 
-    private var adapter: CourseAdapter? = null
+    private lateinit var adapter: CourseAdapter
 
     private val courseList: MutableList<Courses> = ArrayList()
     private val allCourses: MutableList<Course> = ArrayList()
@@ -76,7 +76,17 @@ class CourseListFragment : BaseFragment(), CourseListView {
         courseList.add(Courses("Предложенные курсы", suggestedCourses))
 
         adapter = CourseAdapter(courseList) { onItemClick(it) }
+        for (i in adapter.groups.size - 1 downTo 0) {
+            expandGroup(i)
+        }
         rv_courses.adapter = adapter
+    }
+
+    private fun expandGroup(gPos: Int) {
+        if (adapter.isGroupExpanded(gPos)) {
+            return
+        }
+        adapter.toggleGroup(gPos)
     }
 
     override fun onCodeInvalid() {
@@ -92,6 +102,11 @@ class CourseListFragment : BaseFragment(), CourseListView {
     }
 
     override fun hideProgress() {
+        baseActivity.progressBar2?.visibility = View.GONE
+    }
+
+    override fun onStop() {
+        super.onStop()
         baseActivity.progressBar2?.visibility = View.GONE
     }
 
