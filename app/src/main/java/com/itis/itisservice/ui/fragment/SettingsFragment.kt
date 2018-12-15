@@ -1,10 +1,12 @@
 package com.itis.itisservice.ui.fragment
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.itis.itisservice.App
 import com.itis.itisservice.R
+import com.itis.itisservice.ui.activity.StartActivity
 import com.itis.itisservice.utils.AppPreferencesHelper
 import kotlinx.android.synthetic.main.fragment_settings.*
 import javax.inject.Inject
@@ -33,6 +35,7 @@ class SettingsFragment : BaseFragment() {
         baseActivity.supportActionBar?.show()
 
         btn_sign_out.setOnClickListener { createAlertDialog() }
+        btn_account_settings.setOnClickListener { baseActivity.setContent(AccountFragment.newInstance(), true) }
     }
 
     override val mainContentLayout: Int
@@ -61,7 +64,9 @@ class SettingsFragment : BaseFragment() {
                 .setCancelable(true)
                 .setPositiveButton(R.string.yes) { dialog, arg1 ->
                     sharedPreferences.deleteToken()
-                    baseActivity.finish()
+                    val intent = Intent(baseActivity, StartActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    startActivity(intent)
                 }
                 .setNegativeButton(R.string.no) { dialog, arg -> }
                 .show()

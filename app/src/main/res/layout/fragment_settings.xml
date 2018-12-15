@@ -69,6 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@color/grey"
+        android:padding="4dp"
         android:paddingStart="@dimen/d2"
         android:paddingLeft="@dimen/d2"
         android:text="@string/info_block"
@@ -119,6 +120,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@color/grey"
+        android:padding="4dp"
         android:paddingStart="@dimen/d2"
         android:paddingLeft="@dimen/d2"
         android:text="@string/settings_block"
@@ -176,7 +178,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="Выйти"
-        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_quiz_settings" />

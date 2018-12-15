@@ -72,7 +72,8 @@ class SignInPresenter : MvpPresenter<SignInView>() {
                             if (it.code() == 200) {
                                 val token = it.headers().get("Authorization")
                                 Log.d("SIGN_IN PRESENTER", "token: $token")
-                                viewState.onLoginSuccess(token)
+                                createSharedPreferences(token)
+                                viewState.onLoginSuccess()
                             } else {
                                 viewState.onCodeInvalid()
                             }
@@ -80,7 +81,7 @@ class SignInPresenter : MvpPresenter<SignInView>() {
         )
     }
 
-    fun createSharedPreferences(token: String?) {
+    private fun createSharedPreferences(token: String?) {
         sharedPreferences.setAccessToken(token)
     }
 

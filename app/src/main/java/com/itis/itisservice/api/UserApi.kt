@@ -19,7 +19,7 @@ interface UserApi {
     fun questions(@Header("Authorization") token: String?): Observable<List<Question>>
 
     @POST("users/answers")
-    fun sendAnswers(@Header("Authorization") token: String?, @Body answers: Answers): Single<Response<Void>>
+    fun sendAnswers(@Header("Authorization") token: String?, @Body answers: Answers): Single<MyResponse>
 
     @GET("users/courses")
     fun courses(@Header("Authorization") token: String?): Observable<ListCourses>
@@ -32,4 +32,7 @@ interface UserApi {
 
     @GET("users/courses/{courseID}/points")
     fun points(@Header("Authorization") token: String?, @Path("courseID") id: Int?): Observable<UserPoints>
+
+    @POST("users/profile/password/change")
+    fun changePassword(@Header("Authorization") token: String?, @Body changePasswordForm: ChangePasswordForm): Single<MyResponse>
 }

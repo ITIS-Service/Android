@@ -107,8 +107,8 @@ class SignInFragment : BaseFragment(), SignInView {
         btn_to_sign_in.isEnabled = false
     }
 
-    override fun onLoginSuccess(token: String?) {
-        presenter.createSharedPreferences(token)
+    override fun onLoginSuccess() {
+        //presenter.createSharedPreferences(token)
         baseActivity.setContent(StartQuizFragment.newInstance(), false)
     }
 

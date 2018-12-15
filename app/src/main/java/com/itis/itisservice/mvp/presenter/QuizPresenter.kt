@@ -46,7 +46,7 @@ class QuizPresenter : MvpPresenter<QuizView>() {
                         .doOnSubscribe { viewState.showProgress() }
                         .doAfterTerminate { viewState.hideProgress() }
                         .subscribe({
-                            if (it.code() == 200) {
+                            if (it.success == true) {
                                 quizManager.currentNumber = 0
                                 viewState.finishQuiz()
                             } else {
