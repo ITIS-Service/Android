@@ -4,6 +4,8 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.itis.itisservice.App
 import com.itis.itisservice.api.UserApi
+import com.itis.itisservice.db.ProfileRepository
+import com.itis.itisservice.model.Profile
 import com.itis.itisservice.model.User
 import com.itis.itisservice.mvp.view.SignUpView
 import com.itis.itisservice.tools.validation.EmailValidator
@@ -14,6 +16,9 @@ import javax.inject.Inject
 
 @InjectViewState
 class SignUpPresenter : MvpPresenter<SignUpView>() {
+
+    @Inject
+    lateinit var profileRepository: ProfileRepository
 
     @Inject
     lateinit var emailValidator: EmailValidator
@@ -38,13 +43,13 @@ class SignUpPresenter : MvpPresenter<SignUpView>() {
                 .doAfterTerminate { viewState.hideProgress() }
                 .subscribe(
                         {
-                            run {
-                                if (it.code() == 200) {
-                                    viewState.onRegistrationSuccess()
-                                } else {
-                                    viewState.onCodeInvalid()
-                                }
-                            }
+                            /*if (it.code() == 200) {
+                                viewState.onRegistrationSuccess()
+                            } else {
+                                viewState.onCodeInvalid()
+                            }*/
+                            profileRepository.addProfile(it)
+                            viewState.onRegistrationSuccess()
                         }, { error -> viewState.onConnectionError(error) })
         )
     }

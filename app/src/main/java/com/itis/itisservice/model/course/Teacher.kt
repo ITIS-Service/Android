@@ -1,4 +1,4 @@
-package com.itis.itisservice.model
+package com.itis.itisservice.model.course
 
 import android.os.Parcel
 import android.os.Parcelable

@@ -12,6 +12,7 @@ import com.itis.itisservice.utils.hide
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.fragment_account.*
+import kotlinx.android.synthetic.main.toolbar_layout.*
 
 class AccountFragment : BaseFragment(), AccountView {
 
@@ -37,7 +38,7 @@ class AccountFragment : BaseFragment(), AccountView {
 
     override fun onStop() {
         super.onStop()
-        baseActivity.progressBar2?.visibility = View.GONE
+        baseActivity.progressBar2?.visibility = View.INVISIBLE
         if (!disposable.isDisposed) disposable.clear()
     }
 
@@ -96,7 +97,7 @@ class AccountFragment : BaseFragment(), AccountView {
     }
 
     override fun hideProgress() {
-        baseActivity.progressBar2?.visibility = View.GONE
+        baseActivity.progressBar2?.visibility = View.INVISIBLE
     }
 
     private fun validateFields() {

@@ -10,6 +10,7 @@ import com.itis.itisservice.mvp.view.StartView
 import com.itis.itisservice.tools.QuizManager
 import com.itis.itisservice.ui.fragment.SignInFragment
 import com.itis.itisservice.ui.fragment.StartQuizFragment
+import com.itis.itisservice.utils.Constants.QUIZ_IS_AGAIN
 import javax.inject.Inject
 
 class StartActivity : BaseActivity(), StartView {
@@ -17,8 +18,8 @@ class StartActivity : BaseActivity(), StartView {
     @InjectPresenter
     lateinit var presenter: StartPresenter
 
-    @Inject
-    lateinit var quizManager: QuizManager
+    /*@Inject
+    lateinit var quizManager: QuizManager*/
 
     override val mainContentLayout: Int
         get() = R.layout.activity_start
@@ -33,7 +34,12 @@ class StartActivity : BaseActivity(), StartView {
     }
 
     override fun signedIn() {
-        setContent(StartQuizFragment.newInstance(), false)
+        val isAgain = intent.getBooleanExtra(QUIZ_IS_AGAIN, false)
+        setContent(StartQuizFragment.newInstance(isAgain), false)
+    }
+
+    override fun enableBottomNavBar(state: Boolean) {
+
     }
 
     /*override fun onBackPressed() {
@@ -45,8 +51,8 @@ class StartActivity : BaseActivity(), StartView {
         }
     }*/
 
-    override fun onBackPressed() {
+    /*override fun onBackPressed() {
         if (quizManager.currentNumber != 0) quizManager.currentNumber--
         super.onBackPressed()
-    }
+    }*/
 }

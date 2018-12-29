@@ -16,6 +16,7 @@ import android.text.Editable
 import android.widget.Toast
 import com.itis.itisservice.model.User
 import kotlinx.android.synthetic.main.activity_base.*
+import kotlinx.android.synthetic.main.toolbar_layout.*
 
 class SignUpFragment : BaseFragment(), SignUpView {
 
@@ -41,7 +42,7 @@ class SignUpFragment : BaseFragment(), SignUpView {
 
     override fun onStop() {
         super.onStop()
-        baseActivity.progressBar2?.visibility = View.GONE
+        baseActivity.progressBar2?.visibility = View.INVISIBLE
         if (!disposable.isDisposed) disposable.clear()
     }
 
@@ -123,7 +124,7 @@ class SignUpFragment : BaseFragment(), SignUpView {
     }
 
     override fun onCodeInvalid() {
-        Toast.makeText(baseActivity, "Ошибка регистрации", Toast.LENGTH_SHORT).show()
+        Toast.makeText(baseActivity, "Проверьте правильность введеных данных", Toast.LENGTH_SHORT).show()
     }
 
     override fun showProgress() {
@@ -132,7 +133,7 @@ class SignUpFragment : BaseFragment(), SignUpView {
     }
 
     override fun hideProgress() {
-        baseActivity.progressBar2?.visibility = View.GONE
+        baseActivity.progressBar2?.visibility = View.INVISIBLE
     }
 
     private fun validateFields() {

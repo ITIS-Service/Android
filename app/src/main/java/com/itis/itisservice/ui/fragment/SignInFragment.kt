@@ -1,12 +1,17 @@
 package com.itis.itisservice.ui.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.provider.Settings
 import android.support.v4.app.FragmentTransaction
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.messaging.FirebaseMessagingService
 
 import com.itis.itisservice.R
 import com.itis.itisservice.mvp.presenter.SignInPresenter
@@ -14,6 +19,11 @@ import com.itis.itisservice.mvp.view.SignInView
 import com.itis.itisservice.utils.hide
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.fragment_login.*
+import com.google.firebase.internal.FirebaseAppHelper.getToken
+import com.google.firebase.iid.InstanceIdResult
+import com.google.android.gms.tasks.OnSuccessListener
+import kotlinx.android.synthetic.main.toolbar_layout.*
+
 
 class SignInFragment : BaseFragment(), SignInView {
 
@@ -73,7 +83,7 @@ class SignInFragment : BaseFragment(), SignInView {
         get() = R.layout.fragment_login
 
     override fun onCodeInvalid() {
-        Toast.makeText(baseActivity, "Ошибка авторизации", Toast.LENGTH_SHORT).show()
+        Toast.makeText(baseActivity, "Неправильно введен логин или пароль", Toast.LENGTH_SHORT).show()
     }
 
     override fun forceUpdateEmailPassword() {
@@ -87,16 +97,18 @@ class SignInFragment : BaseFragment(), SignInView {
 
     override fun showProgress() {
         hide(linear_layout_container_sign_in)
+//        progressHUD?.show()
         baseActivity.progressBar2?.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        baseActivity.progressBar2?.visibility = View.GONE
+//        progressHUD?.dismiss()
+        baseActivity.progressBar2?.visibility = View.INVISIBLE
     }
 
     override fun onStop() {
         super.onStop()
-        baseActivity.progressBar2?.visibility = View.GONE
+        baseActivity.progressBar2?.visibility = View.INVISIBLE
     }
 
     override fun enableLoginButton() {
@@ -112,12 +124,17 @@ class SignInFragment : BaseFragment(), SignInView {
         baseActivity.setContent(StartQuizFragment.newInstance(), false)
     }
 
+    @SuppressLint("HardwareIds")
     private fun setOnClickListeners() {
         btn_link_to_sign_up.setOnClickListener { baseActivity.setContent(SignUpFragment.newInstance(), true, FragmentTransaction.TRANSIT_FRAGMENT_OPEN) }
         btn_to_sign_in.setOnClickListener {
             val email = edt_email.text.toString()
             val password = edt_password.text.toString()
-            presenter.onLoginClicked(email, password)
+            FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(baseActivity) { instanceIdResult ->
+                val token = instanceIdResult.token
+                presenter.onLoginClicked(email, password, token)
+                Log.d("newToken", token)
+            }
         }
     }
 }

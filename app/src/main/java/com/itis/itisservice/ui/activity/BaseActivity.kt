@@ -8,13 +8,28 @@ import android.widget.TextView
 
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.crashlytics.android.Crashlytics
+import com.itis.itisservice.App
 import com.itis.itisservice.R
+import com.itis.itisservice.tools.QuizManager
 import com.itis.itisservice.ui.fragment.BaseFragment
 import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
+import javax.inject.Inject
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.content.Context.NOTIFICATION_SERVICE
+import android.graphics.Color
+import com.itis.itisservice.utils.Constants.CHANNEL_DESCRIPTION
+import com.itis.itisservice.utils.Constants.CHANNEL_ID
+import com.itis.itisservice.utils.Constants.CHANNEL_NAME
+
 
 abstract class BaseActivity : MvpAppCompatActivity() {
+
+    @Inject
+    lateinit var quizManager: QuizManager
 
     var myFragmentManager: FragmentManager? = null
 
@@ -23,8 +38,20 @@ abstract class BaseActivity : MvpAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        App.applicationComponent.inject(this)
         setContentView(R.layout.activity_base)
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            val mNotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val mChannel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance)
+            mChannel.description = CHANNEL_DESCRIPTION
+            mChannel.enableLights(true)
+            mChannel.lightColor = Color.RED
+            mChannel.enableVibration(true)
+            mChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 300, 200, 400)
+            mNotificationManager.createNotificationChannel(mChannel)
+        }
 
         Fabric.with(this, Crashlytics())
 
@@ -34,6 +61,13 @@ abstract class BaseActivity : MvpAppCompatActivity() {
 
         layoutInflater.inflate(mainContentLayout, main_wrapper)
     }
+
+    override fun onBackPressed() {
+        if (quizManager.currentNumber != 0) quizManager.currentNumber--
+        super.onBackPressed()
+    }
+
+    abstract fun enableBottomNavBar(state: Boolean)
 
     fun fragmentOnScreen(fragment: BaseFragment) {
         setToolbarTitle(fragment.createToolbarTitle(this))

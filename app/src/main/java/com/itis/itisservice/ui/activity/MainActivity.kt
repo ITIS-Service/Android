@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.transition.Fade
+import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.itis.itisservice.R
 import com.itis.itisservice.mvp.presenter.MainPresenter
@@ -35,4 +36,8 @@ class MainActivity : BaseActivity(), MainView {
 
     override val mainContentLayout: Int
         get() = R.layout.activity_main
+
+    override fun enableBottomNavBar(state: Boolean) {
+        bottom_bar.visibility = if (state) View.VISIBLE else View.GONE
+    }
 }

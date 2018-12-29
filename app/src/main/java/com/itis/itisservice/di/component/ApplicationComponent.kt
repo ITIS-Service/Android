@@ -1,22 +1,21 @@
 package com.itis.itisservice.di.component
 
-import com.itis.itisservice.di.module.ApplicationModule
 import dagger.Component
 import javax.inject.Singleton
 import com.itis.itisservice.tools.view.PasswordValidationTextInputEditText
 import com.itis.itisservice.tools.view.EmailValidationEditText
 import com.itis.itisservice.App
-import com.itis.itisservice.di.module.ApiModule
-import com.itis.itisservice.di.module.PreferencesModule
-import com.itis.itisservice.di.module.ValidationModule
+import com.itis.itisservice.tools.notifications.MyFirebaseMessagingService
+import com.itis.itisservice.di.module.*
 import com.itis.itisservice.mvp.presenter.*
+import com.itis.itisservice.ui.activity.BaseActivity
 import com.itis.itisservice.ui.activity.StartActivity
-import com.itis.itisservice.ui.fragment.SettingsFragment
 import com.itis.itisservice.ui.fragment.StartQuizFragment
 
 
 @Singleton
-@Component(modules = [ApplicationModule::class, ValidationModule::class, ApiModule::class, PreferencesModule::class])
+@Component(modules = [ApplicationModule::class, ValidationModule::class,
+    ApiModule::class, PreferencesModule::class, RepositoryModule::class])
 interface ApplicationComponent {
 
     fun inject(app: App)
@@ -24,6 +23,8 @@ interface ApplicationComponent {
     fun inject(emailValidationEditText: EmailValidationEditText)
 
     fun inject(passwordValidationTextInputEditText: PasswordValidationTextInputEditText)
+
+    fun inject(messagingService: MyFirebaseMessagingService)
 
     fun inject(presenter: SignInPresenter)
 
@@ -43,9 +44,11 @@ interface ApplicationComponent {
 
     fun inject(presenter: AccountPresenter)
 
+    fun inject(presenter: SettingsPresenter)
+
     fun inject(activity: StartActivity)
 
-    fun inject(fragment: StartQuizFragment)
+    fun inject(activity: BaseActivity)
 
-    fun inject(fragment: SettingsFragment)
+    fun inject(fragment: StartQuizFragment)
 }

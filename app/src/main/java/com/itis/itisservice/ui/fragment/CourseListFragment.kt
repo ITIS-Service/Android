@@ -2,11 +2,12 @@ package com.itis.itisservice.ui.fragment
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.itis.itisservice.R
-import com.itis.itisservice.model.Course
+import com.itis.itisservice.model.course.CourseDetails
 import com.itis.itisservice.model.view.Courses
 import com.itis.itisservice.model.view.ListCourses
 import com.itis.itisservice.mvp.presenter.CourseListPresenter
@@ -14,6 +15,12 @@ import com.itis.itisservice.mvp.view.CourseListView
 import com.itis.itisservice.ui.view.holder.CourseAdapter
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.fragment_course_list.*
+import org.greenrobot.eventbus.EventBus
+import com.itis.itisservice.model.MessageEvent
+import com.itis.itisservice.model.course.Course
+import kotlinx.android.synthetic.main.toolbar_layout.*
+import org.greenrobot.eventbus.ThreadMode
+import org.greenrobot.eventbus.Subscribe
 
 
 class CourseListFragment : BaseFragment(), CourseListView {
@@ -37,6 +44,16 @@ class CourseListFragment : BaseFragment(), CourseListView {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         baseActivity.setBackArrow(false)
@@ -53,7 +70,7 @@ class CourseListFragment : BaseFragment(), CourseListView {
         return R.string.screen_name_courses
     }
 
-    override fun showDetails(item: Course) {
+    override fun showDetails(item: CourseDetails) {
         baseActivity.setContent(CourseFragment.newInstance(item), true)
     }
 
@@ -62,23 +79,27 @@ class CourseListFragment : BaseFragment(), CourseListView {
         allCourses.clear()
         myCourses.clear()
         suggestedCourses.clear()
-        courses.userCourses?.let { myCourses.addAll(it) }
-        courses.allCourses?.let { allCourses.addAll(it) }
-        if (courses.suggestedCourses?.size == 0) {
-            suggestedCourses.add(Course(name = "Нет предложенных курсов"))
+
+        if (courses.userCourses?.size != 0) {
+            courses.userCourses?.let { myCourses.addAll(it) }
+            courseList.add(Courses("Мои курсы", myCourses))
         }
-        if (courses.userCourses?.size == 0) {
-            suggestedCourses.add(Course(name = "Нет моих курсов"))
+
+        if (courses.allCourses?.size != 0) {
+            courses.allCourses?.let { allCourses.addAll(it) }
+            courseList.add(Courses("Все курсы", allCourses))
         }
-        courses.suggestedCourses?.let { suggestedCourses.addAll(it) }
-        courseList.add(Courses("Мои курсы", myCourses))
-        courseList.add(Courses("Все курсы", allCourses))
-        courseList.add(Courses("Предложенные курсы", suggestedCourses))
+
+        if (courses.suggestedCourses?.size != 0) {
+            courses.suggestedCourses?.let { suggestedCourses.addAll(it) }
+            courseList.add(Courses("Предложенные курсы", suggestedCourses))
+        }
 
         adapter = CourseAdapter(courseList) { onItemClick(it) }
         for (i in adapter.groups.size - 1 downTo 0) {
             expandGroup(i)
         }
+
         rv_courses.adapter = adapter
     }
 
@@ -102,15 +123,21 @@ class CourseListFragment : BaseFragment(), CourseListView {
     }
 
     override fun hideProgress() {
-        baseActivity.progressBar2?.visibility = View.GONE
+        baseActivity.progressBar2?.visibility = View.INVISIBLE
     }
 
     override fun onStop() {
         super.onStop()
-        baseActivity.progressBar2?.visibility = View.GONE
+        baseActivity.progressBar2?.visibility = View.INVISIBLE
     }
 
     private fun onItemClick(item: Course) {
         presenter.onItemClick(item)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event: MessageEvent) {
+        Log.d("www", "eventBus")
+        presenter.loadCourses()
     }
 }

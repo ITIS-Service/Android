@@ -37,6 +37,18 @@ class CoursePresenter : MvpPresenter<CourseView>() {
         )
     }
 
+    fun signOut(id: Int?) {
+        compositeDisposable.add(userApi
+                .signOutCourse(sharedPreferences.getAccessToken(), id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { viewState.showProgress() }
+                .doAfterTerminate { viewState.hideProgress() }
+                .subscribe({
+                    viewState.showDetails(it)
+                }, { error -> viewState.onConnectionError(error) })
+        )
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         compositeDisposable.dispose()

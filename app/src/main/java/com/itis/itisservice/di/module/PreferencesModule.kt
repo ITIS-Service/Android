@@ -1,6 +1,7 @@
 package com.itis.itisservice.di.module
 
 import android.content.Context
+import com.itis.itisservice.tools.notifications.MyNotificationManager
 import com.itis.itisservice.tools.QuizManager
 import com.itis.itisservice.utils.AppPreferencesHelper
 import dagger.Module
@@ -20,5 +21,11 @@ class PreferencesModule {
     @Provides
     fun provideQuizManager(): QuizManager {
         return QuizManager()
+    }
+
+    @Singleton
+    @Provides
+    fun provideNotificationManager(context: Context) : MyNotificationManager {
+        return MyNotificationManager(context)
     }
 }

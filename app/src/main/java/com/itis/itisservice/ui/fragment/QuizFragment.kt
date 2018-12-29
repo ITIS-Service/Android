@@ -19,6 +19,7 @@ import android.widget.Toast
 import com.itis.itisservice.ui.activity.MainActivity
 import com.itis.itisservice.utils.toDp
 import kotlinx.android.synthetic.main.activity_base.*
+import kotlinx.android.synthetic.main.toolbar_layout.*
 
 
 class QuizFragment : BaseFragment(), QuizView {
@@ -94,12 +95,12 @@ class QuizFragment : BaseFragment(), QuizView {
     }
 
     override fun hideProgress() {
-        baseActivity.progressBar2?.visibility = View.GONE
+        baseActivity.progressBar2?.visibility = View.INVISIBLE
     }
 
     override fun onStop() {
         super.onStop()
-        baseActivity.progressBar2?.visibility = View.GONE
+        baseActivity.progressBar2?.visibility = View.INVISIBLE
     }
 
     override fun finishQuiz() {

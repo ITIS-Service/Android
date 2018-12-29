@@ -15,6 +15,7 @@ import com.itis.itisservice.ui.view.holder.PointAdapter
 import com.itis.itisservice.utils.Constants.COURSE_ID
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.fragment_progress.*
+import kotlinx.android.synthetic.main.toolbar_layout.*
 
 class ProgressFragment : BaseFragment(), ProgressView {
 
@@ -81,12 +82,12 @@ class ProgressFragment : BaseFragment(), ProgressView {
     }
 
     override fun hideProgress() {
-        baseActivity.progressBar2?.visibility = View.GONE
+        baseActivity.progressBar2?.visibility = View.INVISIBLE
     }
 
     override fun onStop() {
         super.onStop()
-        baseActivity.progressBar2?.visibility = View.GONE
+        baseActivity.progressBar2?.visibility = View.INVISIBLE
     }
 
     private fun setUpRecyclerView() {

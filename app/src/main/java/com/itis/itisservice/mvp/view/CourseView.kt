@@ -1,7 +1,7 @@
 package com.itis.itisservice.mvp.view
 
-import com.itis.itisservice.model.Course
+import com.itis.itisservice.model.course.CourseDetails
 
 interface CourseView: BaseView {
-    fun showDetails(course: Course)
+    fun showDetails(course: CourseDetails)
 }

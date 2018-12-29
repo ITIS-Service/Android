@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 
 import com.itis.itisservice.R
-import com.itis.itisservice.model.Course
+import com.itis.itisservice.model.course.Course
 import com.itis.itisservice.model.view.Courses
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup

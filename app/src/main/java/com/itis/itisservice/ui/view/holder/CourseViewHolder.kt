@@ -1,9 +1,9 @@
 package com.itis.itisservice.ui.view.holder
 
 import android.view.View
-import android.widget.Toast
+import com.itis.itisservice.model.course.Course
 
-import com.itis.itisservice.model.Course
+import com.itis.itisservice.model.course.CourseDetails
 import com.thoughtbot.expandablerecyclerview.viewholders.ChildViewHolder
 import kotlinx.android.synthetic.main.item_course.view.*
 

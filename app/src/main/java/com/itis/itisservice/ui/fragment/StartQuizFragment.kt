@@ -13,8 +13,10 @@ import com.itis.itisservice.mvp.view.StartQuizView
 import com.itis.itisservice.tools.QuizManager
 import com.itis.itisservice.ui.activity.MainActivity
 import com.itis.itisservice.utils.AppPreferencesHelper
+import com.itis.itisservice.utils.Constants.QUIZ_IS_AGAIN
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.fragment_start_quiz.*
+import kotlinx.android.synthetic.main.toolbar_layout.*
 import javax.inject.Inject
 
 class StartQuizFragment : BaseFragment(), StartQuizView {
@@ -29,8 +31,9 @@ class StartQuizFragment : BaseFragment(), StartQuizView {
     lateinit var sharedPreferences: AppPreferencesHelper
 
     companion object {
-        fun newInstance(): StartQuizFragment {
+        fun newInstance(isAgain: Boolean = false): StartQuizFragment {
             val args = Bundle()
+            args.putBoolean(QUIZ_IS_AGAIN, isAgain)
 
             val fragment = StartQuizFragment()
             fragment.arguments = args
@@ -44,11 +47,20 @@ class StartQuizFragment : BaseFragment(), StartQuizView {
         baseActivity.setBackArrow(false)
         baseActivity.supportActionBar?.hide()
 
+        val isAgain = arguments?.getBoolean(QUIZ_IS_AGAIN) ?: false
+
         btn_start_quiz.setOnClickListener { presenter.loadQuestions() }
-        btn_skip.setOnClickListener {
-            val intent = Intent(baseActivity, MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            startActivity(intent)
+
+        if (isAgain) {
+            btn_skip.setOnClickListener {
+                baseActivity.onBackPressed()
+            }
+        } else {
+            btn_skip.setOnClickListener {
+                val intent = Intent(baseActivity, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(intent)
+            }
         }
     }
 
@@ -73,10 +85,12 @@ class StartQuizFragment : BaseFragment(), StartQuizView {
     }
 
     override fun showProgress() {
+//        progressHUD?.show()
         baseActivity.progressBar2?.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        baseActivity.progressBar2?.visibility = View.GONE
+//        progressHUD?.dismiss()
+        baseActivity.progressBar2?.visibility = View.INVISIBLE
     }
 }

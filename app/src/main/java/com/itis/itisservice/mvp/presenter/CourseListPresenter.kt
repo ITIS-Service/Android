@@ -4,7 +4,8 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.itis.itisservice.App
 import com.itis.itisservice.api.UserApi
-import com.itis.itisservice.model.Course
+import com.itis.itisservice.model.course.Course
+import com.itis.itisservice.model.course.CourseDetails
 import com.itis.itisservice.mvp.view.CourseListView
 import com.itis.itisservice.utils.AppPreferencesHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -31,7 +32,7 @@ class CourseListPresenter : MvpPresenter<CourseListView>() {
         loadCourses()
     }
 
-    private fun loadCourses() {
+    fun loadCourses() {
         compositeDisposable.add(userApi
                 .courses(sharedPreferences.getAccessToken())
                 .observeOn(AndroidSchedulers.mainThread())
