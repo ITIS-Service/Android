@@ -8,11 +8,13 @@ import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.itis.itisservice.R
 import com.itis.itisservice.ui.activity.BaseActivity
 import com.kaopiz.kprogresshud.KProgressHUD
+import kotlinx.android.synthetic.main.toolbar_layout.*
 
 abstract class BaseFragment : MvpAppCompatFragment() {
 
@@ -41,6 +43,20 @@ abstract class BaseFragment : MvpAppCompatFragment() {
         return KProgressHUD.create(baseActivity)
                 .setDimAmount(0.5f)
                 .setBackgroundColor(ContextCompat.getColor(baseActivity, R.color.colorTextField))
+    }
+
+    fun showProgressBar() {
+        hideKeyboard()
+        baseActivity.progressBar?.visibility = View.VISIBLE
+    }
+
+    fun hideProgressBar() {
+        baseActivity.progressBar?.visibility = View.INVISIBLE
+    }
+
+    private fun hideKeyboard() {
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
     }
 
     @StringRes

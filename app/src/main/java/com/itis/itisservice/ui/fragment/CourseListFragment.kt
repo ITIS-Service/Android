@@ -119,16 +119,16 @@ class CourseListFragment : BaseFragment(), CourseListView {
     }
 
     override fun showProgress() {
-        baseActivity.progressBar2?.visibility = View.VISIBLE
+        showProgressBar()
     }
 
     override fun hideProgress() {
-        baseActivity.progressBar2?.visibility = View.INVISIBLE
+        hideProgressBar()
     }
 
     override fun onStop() {
         super.onStop()
-        baseActivity.progressBar2?.visibility = View.INVISIBLE
+        hideProgressBar()
     }
 
     private fun onItemClick(item: Course) {

@@ -96,19 +96,16 @@ class SignInFragment : BaseFragment(), SignInView {
     }
 
     override fun showProgress() {
-        hide(linear_layout_container_sign_in)
-//        progressHUD?.show()
-        baseActivity.progressBar2?.visibility = View.VISIBLE
+        showProgressBar()
     }
 
     override fun hideProgress() {
-//        progressHUD?.dismiss()
-        baseActivity.progressBar2?.visibility = View.INVISIBLE
+        hideProgressBar()
     }
 
     override fun onStop() {
         super.onStop()
-        baseActivity.progressBar2?.visibility = View.INVISIBLE
+        hideProgressBar()
     }
 
     override fun enableLoginButton() {

@@ -38,7 +38,7 @@ class AccountFragment : BaseFragment(), AccountView {
 
     override fun onStop() {
         super.onStop()
-        baseActivity.progressBar2?.visibility = View.INVISIBLE
+        hideProgressBar()
         if (!disposable.isDisposed) disposable.clear()
     }
 
@@ -92,12 +92,11 @@ class AccountFragment : BaseFragment(), AccountView {
     }
 
     override fun showProgress() {
-        hide(container_account)
-        baseActivity.progressBar2?.visibility = View.VISIBLE
+        showProgressBar()
     }
 
     override fun hideProgress() {
-        baseActivity.progressBar2?.visibility = View.INVISIBLE
+        hideProgressBar()
     }
 
     private fun validateFields() {
@@ -111,6 +110,7 @@ class AccountFragment : BaseFragment(), AccountView {
     }
 
     private fun isEmptyFields(): Boolean {
+        // todo !! safe
         return !(!edt_old_password.text?.isEmpty()!! && !edt_new_password.text?.isEmpty()!!
                 && !edt_confirm_password.text?.isEmpty()!!)
     }

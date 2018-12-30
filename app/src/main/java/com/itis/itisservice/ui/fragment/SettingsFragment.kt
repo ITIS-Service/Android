@@ -67,11 +67,11 @@ class SettingsFragment : BaseFragment(), SettingsView {
     }
 
     override fun showProgress() {
-        baseActivity.progressBar2?.visibility = View.VISIBLE
+        showProgressBar()
     }
 
     override fun hideProgress() {
-        baseActivity.progressBar2?.visibility = View.INVISIBLE
+        hideProgressBar()
     }
 
     private fun createAlertDialog() {

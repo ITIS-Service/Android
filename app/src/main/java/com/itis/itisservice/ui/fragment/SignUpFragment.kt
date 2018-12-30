@@ -42,7 +42,7 @@ class SignUpFragment : BaseFragment(), SignUpView {
 
     override fun onStop() {
         super.onStop()
-        baseActivity.progressBar2?.visibility = View.INVISIBLE
+        hideProgressBar()
         if (!disposable.isDisposed) disposable.clear()
     }
 
@@ -128,12 +128,11 @@ class SignUpFragment : BaseFragment(), SignUpView {
     }
 
     override fun showProgress() {
-        hide(linear_layout_container_sign_up)
-        baseActivity.progressBar2?.visibility = View.VISIBLE
+        showProgressBar()
     }
 
     override fun hideProgress() {
-        baseActivity.progressBar2?.visibility = View.INVISIBLE
+        hideProgressBar()
     }
 
     private fun validateFields() {
