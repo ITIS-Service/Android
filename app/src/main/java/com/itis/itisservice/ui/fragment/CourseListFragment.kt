@@ -9,16 +9,14 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.itis.itisservice.R
 import com.itis.itisservice.model.course.CourseDetails
 import com.itis.itisservice.model.view.Courses
-import com.itis.itisservice.model.view.ListCourses
+import com.itis.itisservice.model.ListCourses
 import com.itis.itisservice.mvp.presenter.CourseListPresenter
 import com.itis.itisservice.mvp.view.CourseListView
 import com.itis.itisservice.ui.view.holder.CourseAdapter
-import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.fragment_course_list.*
 import org.greenrobot.eventbus.EventBus
 import com.itis.itisservice.model.MessageEvent
 import com.itis.itisservice.model.course.Course
-import kotlinx.android.synthetic.main.toolbar_layout.*
 import org.greenrobot.eventbus.ThreadMode
 import org.greenrobot.eventbus.Subscribe
 

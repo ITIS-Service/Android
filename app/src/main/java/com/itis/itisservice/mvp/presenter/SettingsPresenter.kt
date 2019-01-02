@@ -4,6 +4,8 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.itis.itisservice.App
 import com.itis.itisservice.api.UserApi
+import com.itis.itisservice.db.ProfileRepository
+import com.itis.itisservice.model.Profile
 import com.itis.itisservice.model.RegisterDevice
 import com.itis.itisservice.mvp.view.SettingsView
 import com.itis.itisservice.utils.AppPreferencesHelper
@@ -13,6 +15,9 @@ import javax.inject.Inject
 
 @InjectViewState
 class SettingsPresenter : MvpPresenter<SettingsView>() {
+
+    @Inject
+    lateinit var profileRepository: ProfileRepository
 
     @Inject
     lateinit var sharedPreferences: AppPreferencesHelper
@@ -38,6 +43,10 @@ class SettingsPresenter : MvpPresenter<SettingsView>() {
                             viewState.unregisterSuccess()
                         }, { error -> viewState.onConnectionError(error) })
         )
+    }
+
+    fun getProfile(): Profile? {
+        return profileRepository.getProfile()
     }
 
     override fun onDestroy() {

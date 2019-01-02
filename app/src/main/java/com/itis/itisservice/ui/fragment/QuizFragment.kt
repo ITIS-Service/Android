@@ -45,7 +45,6 @@ class QuizFragment : BaseFragment(), QuizView {
         baseActivity.supportActionBar?.hide()
 
         numQuestion = arguments?.getInt(NUM_QUESTION_KEY) ?: 0
-
     }
 
     override val mainContentLayout: Int

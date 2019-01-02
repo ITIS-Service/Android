@@ -3,7 +3,7 @@ package com.itis.itisservice.api
 import com.google.gson.JsonObject
 import com.itis.itisservice.model.*
 import com.itis.itisservice.model.course.CourseDetails
-import com.itis.itisservice.model.view.ListCourses
+import com.itis.itisservice.model.ListCourses
 import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.Response
@@ -13,6 +13,9 @@ interface UserApi {
 
     @POST("users/login")
     fun signIn(@Body user: User): Single<Response<JsonObject>>
+
+    @POST("users/login")
+    fun signIn2(@Body user: User): Single<Profile>
 
     @POST("users/registration")
     fun signUp(@Body user: User): Single<Profile>
@@ -46,4 +49,7 @@ interface UserApi {
 
     @POST("users/device/unregister")
     fun unregisterDevice(@Header("Authorization") token: String?, @Body registerDevice: RegisterDevice): Single<MyResponse>
+
+    @POST("users/profile/settings")
+    fun changeNotifications(@Header("Authorization") token: String?, @Body userSettings: UserSettings): Single<UserSettings>
 }

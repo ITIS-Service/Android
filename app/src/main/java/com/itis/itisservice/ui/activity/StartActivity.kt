@@ -1,10 +1,12 @@
 package com.itis.itisservice.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.itis.itisservice.App
 
 import com.itis.itisservice.R
+import com.itis.itisservice.db.ProfileRepository
 import com.itis.itisservice.mvp.presenter.StartPresenter
 import com.itis.itisservice.mvp.view.StartView
 import com.itis.itisservice.tools.QuizManager
@@ -17,9 +19,6 @@ class StartActivity : BaseActivity(), StartView {
 
     @InjectPresenter
     lateinit var presenter: StartPresenter
-
-    /*@Inject
-    lateinit var quizManager: QuizManager*/
 
     override val mainContentLayout: Int
         get() = R.layout.activity_start
@@ -35,7 +34,16 @@ class StartActivity : BaseActivity(), StartView {
 
     override fun signedIn() {
         val isAgain = intent.getBooleanExtra(QUIZ_IS_AGAIN, false)
-        setContent(StartQuizFragment.newInstance(isAgain), false)
+
+        if (isAgain) {
+            setContent(StartQuizFragment.newInstance(isAgain), false)
+        } else {
+            if (presenter.isPassQuiz()) {
+                val intent = Intent(this, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(intent)
+            }
+        }
     }
 
     override fun enableBottomNavBar(state: Boolean) {

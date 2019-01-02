@@ -12,6 +12,7 @@ import com.itis.itisservice.mvp.view.MainView
 import com.itis.itisservice.ui.fragment.BaseFragment
 import com.itis.itisservice.ui.fragment.CourseListFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_internet_error.*
 
 class MainActivity : BaseActivity(), MainView {
 
@@ -23,6 +24,7 @@ class MainActivity : BaseActivity(), MainView {
         super.onCreate(savedInstanceState)
 
         bottom_bar.setOnNavigationItemSelectedListener { item ->
+            clearFragmentsStack()
             presenter.bottomBarItemClick(item.itemId)
             true
         }

@@ -3,22 +3,16 @@ package com.itis.itisservice.ui.fragment
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.FragmentTransaction
 import android.view.View
 import android.widget.Toast
 import com.arellomobile.mvp.presenter.InjectPresenter
-import com.itis.itisservice.App
 import com.itis.itisservice.R
+import com.itis.itisservice.model.Profile
 import com.itis.itisservice.mvp.presenter.SettingsPresenter
 import com.itis.itisservice.mvp.view.SettingsView
-import com.itis.itisservice.ui.activity.MainActivity
 import com.itis.itisservice.ui.activity.StartActivity
-import com.itis.itisservice.utils.AppPreferencesHelper
 import com.itis.itisservice.utils.Constants.QUIZ_IS_AGAIN
-import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.fragment_settings.*
-import kotlinx.android.synthetic.main.toolbar_layout.*
-import javax.inject.Inject
 
 class SettingsFragment : BaseFragment(), SettingsView {
 
@@ -42,6 +36,7 @@ class SettingsFragment : BaseFragment(), SettingsView {
         baseActivity.fragmentOnScreen(this)
         baseActivity.supportActionBar?.show()
 
+        showProfile(presenter.getProfile())
         setOnClickListener()
     }
 
@@ -50,6 +45,14 @@ class SettingsFragment : BaseFragment(), SettingsView {
 
     override fun onCreateToolbarTitle(): Int {
         return R.string.screen_name_settings
+    }
+
+    private fun showProfile(profile: Profile?) {
+        val userName = "${profile?.firstName} ${profile?.lastName}"
+        tv_user_name.text = userName
+        tv_user_email.text = "${profile?.email}"
+        tv_user_group.text = "${profile?.group?.name}"
+        tv_user_course.text = profile?.group?.course.toString()
     }
 
     override fun unregisterSuccess() {
@@ -116,6 +119,9 @@ class SettingsFragment : BaseFragment(), SettingsView {
             intent.putExtra(QUIZ_IS_AGAIN, true)
             startActivity(intent)
         }
-        btn_notification_settings.setOnClickListener { baseActivity.setContent(NotificationFragment.newInstance(), true) }
+        btn_notification_settings.setOnClickListener {
+            baseActivity.setContent(NotificationFragment.newInstance(),
+                    true)
+        }
     }
 }

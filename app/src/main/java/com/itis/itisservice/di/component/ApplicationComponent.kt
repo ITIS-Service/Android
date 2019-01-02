@@ -26,6 +26,7 @@ interface ApplicationComponent {
 
     fun inject(messagingService: MyFirebaseMessagingService)
 
+    // presenters
     fun inject(presenter: SignInPresenter)
 
     fun inject(presenter: SignUpPresenter)
@@ -46,6 +47,9 @@ interface ApplicationComponent {
 
     fun inject(presenter: SettingsPresenter)
 
+    fun inject(presenter: NotificationPresenter)
+
+    // activities
     fun inject(activity: StartActivity)
 
     fun inject(activity: BaseActivity)

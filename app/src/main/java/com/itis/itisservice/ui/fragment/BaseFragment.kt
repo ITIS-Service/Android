@@ -9,11 +9,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.itis.itisservice.R
 import com.itis.itisservice.ui.activity.BaseActivity
+import com.itis.itisservice.ui.activity.MainActivity
 import com.kaopiz.kprogresshud.KProgressHUD
+import kotlinx.android.synthetic.main.activity_base.*
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_internet_error.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
 
 abstract class BaseFragment : MvpAppCompatFragment() {
@@ -52,6 +57,14 @@ abstract class BaseFragment : MvpAppCompatFragment() {
 
     fun hideProgressBar() {
         baseActivity.progressBar?.visibility = View.INVISIBLE
+    }
+
+    fun showProgressError() {
+        //baseActivity.setContent(InternetErrorFragment.newInstance(), true)
+    }
+
+    private fun hideProgressError() {
+
     }
 
     private fun hideKeyboard() {

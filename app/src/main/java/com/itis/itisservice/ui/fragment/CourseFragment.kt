@@ -91,7 +91,10 @@ class CourseFragment : BaseFragment(), CourseView {
         btn_sign_up_for_course.setOnClickListener {
             createAlertDialog(R.string.dialog_title_sign_up, "Подтверждение записи на курс ")
         }
-        btn_course_progress.setOnClickListener { baseActivity.setContent(ProgressFragment.newInstance(courseDetails?.id), true) }
+        btn_course_progress.setOnClickListener {
+            baseActivity.setContent(ProgressFragment.newInstance(courseDetails?.id),
+                    true)
+        }
     }
 
     private fun showDescriptionCourse(courseDetails: CourseDetails) {

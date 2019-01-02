@@ -5,6 +5,7 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.itis.itisservice.App
 import com.itis.itisservice.api.UserApi
+import com.itis.itisservice.db.ProfileRepository
 import com.itis.itisservice.model.RegisterDevice
 import com.itis.itisservice.model.User
 import com.itis.itisservice.mvp.view.SignInView
@@ -14,9 +15,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 import com.itis.itisservice.utils.AppPreferencesHelper
+import com.itis.itisservice.utils.Two
+import io.reactivex.Single
 
 @InjectViewState
 class SignInPresenter : MvpPresenter<SignInView>() {
+
+    @Inject
+    lateinit var profileRepository: ProfileRepository
 
     @Inject
     lateinit var emailValidator: EmailValidator
@@ -63,17 +69,22 @@ class SignInPresenter : MvpPresenter<SignInView>() {
     }
 
     private fun startLogin(email: String, password: String) {
-        compositeDisposable.add(
-                userApi
-                        .signIn(User(email = email, password = password))
+        compositeDisposable.addAll(
+                Single.zip(
+                        userApi.signIn(User(email = email, password = password)),
+                        userApi.signIn2(User(email = email, password = password)),
+                        Two.zipFunc()
+                )
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnSubscribe { viewState.showProgress() }
                         .doAfterTerminate { viewState.hideProgress() }
                         .subscribe({
-                            if (it.code() == 200) {
-                                val userToken = it.headers().get("Authorization")
+                            if (it.first?.code() == 200) {
+                                val userToken = it.first?.headers()?.get("Authorization")
                                 Log.d("SIGN_IN PRESENTER", "token: $userToken")
                                 //createSharedPreferences(usertoken)
+                                Log.d("SIGN_IN PRESENTER", "${it.second?.email}")
+                                it.second?.let { profile -> profileRepository.addProfile(profile) }
                                 registerDevice(userToken)
                                 //viewState.onLoginSuccess()
                             } else {
@@ -94,18 +105,6 @@ class SignInPresenter : MvpPresenter<SignInView>() {
                         .subscribe({
                             createSharedPreferences(userToken)
                             viewState.onLoginSuccess()
-                        }, { error -> viewState.onConnectionError(error) })
-        )
-    }
-
-    fun unregisterDevice() {
-        compositeDisposable.add(
-                userApi
-                        .unregisterDevice(sharedPreferences.getAccessToken(), RegisterDevice(token = sharedPreferences.getDeviceToken()))
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSubscribe { viewState.showProgress() }
-                        .doAfterTerminate { viewState.hideProgress() }
-                        .subscribe({
                         }, { error -> viewState.onConnectionError(error) })
         )
     }

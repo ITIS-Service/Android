@@ -4,12 +4,17 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.itis.itisservice.App
 import com.itis.itisservice.api.UserApi
+import com.itis.itisservice.model.ListCourses
 import com.itis.itisservice.model.course.Course
 import com.itis.itisservice.model.course.CourseDetails
 import com.itis.itisservice.mvp.view.CourseListView
 import com.itis.itisservice.utils.AppPreferencesHelper
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.realm.Realm
+import io.realm.RealmObject
+import java.util.concurrent.Callable
 import javax.inject.Inject
 
 @InjectViewState
@@ -35,6 +40,8 @@ class CourseListPresenter : MvpPresenter<CourseListView>() {
     fun loadCourses() {
         compositeDisposable.add(userApi
                 .courses(sharedPreferences.getAccessToken())
+//                .doOnNext { saveToDb(it) }
+//                .onErrorResumeNext(onCreateRestoreDataObservable())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { viewState.showProgress() }
                 .doAfterTerminate { viewState.hideProgress() }
@@ -58,7 +65,21 @@ class CourseListPresenter : MvpPresenter<CourseListView>() {
 
     fun onItemClick(item: Course) {
         loadCourse(item.id)
-//        viewState.showDetails(item)
+    }
+
+    fun onCreateRestoreDataObservable(): Observable<ListCourses?> {
+        return Observable.just(getListFromRealmCallable())
+    }
+
+    fun getListFromRealmCallable(): ListCourses? {
+        val realm = Realm.getDefaultInstance()
+        return realm.where(ListCourses::class.java).findFirst()
+    }
+
+    fun saveToDb(item: RealmObject): Observable<RealmObject>? {
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransaction { realm1 -> realm1.insertOrUpdate(item) }
+        return Observable.just(item)
     }
 
     override fun onDestroy() {

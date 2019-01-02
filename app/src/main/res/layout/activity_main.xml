@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/colorBackground"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context=".ui.activity.MainActivity">
 
     <android.support.design.widget.BottomNavigationView
@@ -15,6 +15,6 @@
         android:background="@color/item_background"
         app:itemIconTint="@drawable/selector_bottom_bar_item"
         app:itemTextColor="@drawable/selector_bottom_bar_text"
-        app:menu="@menu/bottom_bar_menu"/>
+        app:menu="@menu/bottom_bar_menu" />
 
 </RelativeLayout>
