@@ -2,6 +2,7 @@ package com.itis.itisservice.model.course
 
 import android.os.Parcel
 import android.os.Parcelable
+import io.realm.RealmObject
 
 enum class CourseStatus(val status: String?) : Parcelable {
 

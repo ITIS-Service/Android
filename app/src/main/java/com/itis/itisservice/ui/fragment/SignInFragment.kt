@@ -92,7 +92,9 @@ class SignInFragment : BaseFragment(), SignInView {
     }
 
     override fun onConnectionError(error: Throwable) {
-        Toast.makeText(baseActivity, error.message, Toast.LENGTH_SHORT).show()
+        Log.d("Sign in error", error.message)
+        //Toast.makeText(baseActivity, error.message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(baseActivity, "Неправильно введен логин или пароль", Toast.LENGTH_SHORT).show()
     }
 
     override fun showProgress() {

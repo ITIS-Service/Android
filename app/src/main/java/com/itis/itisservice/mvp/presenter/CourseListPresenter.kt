@@ -1,24 +1,29 @@
 package com.itis.itisservice.mvp.presenter
 
+import android.util.Log
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.itis.itisservice.App
 import com.itis.itisservice.api.UserApi
-import com.itis.itisservice.model.ListCourses
+import com.itis.itisservice.db.CoursesRepository
 import com.itis.itisservice.model.course.Course
-import com.itis.itisservice.model.course.CourseDetails
 import com.itis.itisservice.mvp.view.CourseListView
 import com.itis.itisservice.utils.AppPreferencesHelper
+import com.itis.itisservice.utils.NetworkManager
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.realm.Realm
-import io.realm.RealmObject
-import java.util.concurrent.Callable
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 @InjectViewState
 class CourseListPresenter : MvpPresenter<CourseListView>() {
+
+    @Inject
+    lateinit var networkManager: NetworkManager
+
+    @Inject
+    lateinit var coursesRepository: CoursesRepository
 
     @Inject
     lateinit var sharedPreferences: AppPreferencesHelper
@@ -38,16 +43,37 @@ class CourseListPresenter : MvpPresenter<CourseListView>() {
     }
 
     fun loadCourses() {
-        compositeDisposable.add(userApi
-                .courses(sharedPreferences.getAccessToken())
-//                .doOnNext { saveToDb(it) }
-//                .onErrorResumeNext(onCreateRestoreDataObservable())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { viewState.showProgress() }
-                .doAfterTerminate { viewState.hideProgress() }
-                .subscribe({
-                    viewState.showCourses(it)
-                }, { error -> viewState.onConnectionError(error) })
+        compositeDisposable.add(
+                /*networkManager.hasInternetConnection()
+                        .flatMap {
+                            if (it) {
+                                Log.d("MY_TAG", "online")
+                                userApi
+                                        .courses(sharedPreferences.getAccessToken())
+                                        .doOnNext { listCourses -> coursesRepository.addCourses(listCourses) }
+                            } else {
+                                Log.d("MY_TAG", "offline")
+                                coursesRepository.getCourses()
+                            }
+                        }
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe { viewState.showProgress() }
+                        .doAfterTerminate { viewState.hideProgress() }
+                        .subscribe({
+                            viewState.showCourses(it)
+                        }, { error -> viewState.onConnectionError(error) })*/
+
+
+                userApi
+                        .courses(sharedPreferences.getAccessToken())
+                        //.doOnNext { coursesRepository.addCourses(it) }
+                        //.onErrorResumeNext(coursesRepository.getCourses())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe { viewState.showProgress() }
+                        .doAfterTerminate { viewState.hideProgress() }
+                        .subscribe({
+                            viewState.showCourses(it)
+                        }, { error -> viewState.onConnectionError(error) })
         )
     }
 
@@ -65,21 +91,6 @@ class CourseListPresenter : MvpPresenter<CourseListView>() {
 
     fun onItemClick(item: Course) {
         loadCourse(item.id)
-    }
-
-    fun onCreateRestoreDataObservable(): Observable<ListCourses?> {
-        return Observable.just(getListFromRealmCallable())
-    }
-
-    fun getListFromRealmCallable(): ListCourses? {
-        val realm = Realm.getDefaultInstance()
-        return realm.where(ListCourses::class.java).findFirst()
-    }
-
-    fun saveToDb(item: RealmObject): Observable<RealmObject>? {
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransaction { realm1 -> realm1.insertOrUpdate(item) }
-        return Observable.just(item)
     }
 
     override fun onDestroy() {

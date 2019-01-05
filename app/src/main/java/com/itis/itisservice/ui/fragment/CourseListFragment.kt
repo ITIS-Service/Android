@@ -17,6 +17,9 @@ import kotlinx.android.synthetic.main.fragment_course_list.*
 import org.greenrobot.eventbus.EventBus
 import com.itis.itisservice.model.MessageEvent
 import com.itis.itisservice.model.course.Course
+import com.itis.itisservice.ui.activity.MainActivity
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_internet_error.*
 import org.greenrobot.eventbus.ThreadMode
 import org.greenrobot.eventbus.Subscribe
 
@@ -54,6 +57,7 @@ class CourseListFragment : BaseFragment(), CourseListView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         baseActivity.setBackArrow(false)
         baseActivity.fragmentOnScreen(this)
         baseActivity.supportActionBar?.show()
@@ -113,7 +117,7 @@ class CourseListFragment : BaseFragment(), CourseListView {
     }
 
     override fun onConnectionError(error: Throwable) {
-        Toast.makeText(baseActivity, error.message, Toast.LENGTH_SHORT).show()
+        showProgressError { presenter.loadCourses() }
     }
 
     override fun showProgress() {

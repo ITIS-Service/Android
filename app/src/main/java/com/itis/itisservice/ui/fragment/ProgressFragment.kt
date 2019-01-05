@@ -74,7 +74,8 @@ class ProgressFragment : BaseFragment(), ProgressView {
     }
 
     override fun onConnectionError(error: Throwable) {
-        Toast.makeText(baseActivity, error.message, Toast.LENGTH_SHORT).show()
+//        Toast.makeText(baseActivity, error.message, Toast.LENGTH_SHORT).show()
+        showProgressError { getCourseId() }
     }
 
     override fun showProgress() {

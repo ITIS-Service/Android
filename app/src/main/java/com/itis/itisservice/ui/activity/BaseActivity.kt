@@ -67,8 +67,6 @@ abstract class BaseActivity : MvpAppCompatActivity() {
         super.onBackPressed()
     }
 
-    abstract fun enableBottomNavBar(state: Boolean)
-
     fun fragmentOnScreen(fragment: BaseFragment) {
         setToolbarTitle(fragment.createToolbarTitle(this))
     }

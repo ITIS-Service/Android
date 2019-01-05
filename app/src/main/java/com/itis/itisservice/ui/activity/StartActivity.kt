@@ -45,22 +45,4 @@ class StartActivity : BaseActivity(), StartView {
             }
         }
     }
-
-    override fun enableBottomNavBar(state: Boolean) {
-
-    }
-
-    /*override fun onBackPressed() {
-        if (myFragmentManager?.backStackEntryCount!! > 0) {
-            if (quizManager.currentNumber != 0) quizManager.currentNumber--
-            myFragmentManager?.popBackStack()
-        } else {
-            super.onBackPressed()
-        }
-    }*/
-
-    /*override fun onBackPressed() {
-        if (quizManager.currentNumber != 0) quizManager.currentNumber--
-        super.onBackPressed()
-    }*/
 }

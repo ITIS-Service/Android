@@ -38,8 +38,4 @@ class MainActivity : BaseActivity(), MainView {
 
     override val mainContentLayout: Int
         get() = R.layout.activity_main
-
-    override fun enableBottomNavBar(state: Boolean) {
-        bottom_bar.visibility = if (state) View.VISIBLE else View.GONE
-    }
 }
