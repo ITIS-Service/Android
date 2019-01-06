@@ -59,7 +59,7 @@ abstract class BaseFragment : MvpAppCompatFragment() {
         //baseActivity.setContent(InternetErrorFragment.newInstance(), true)
         fragment_internet_error.visibility = View.VISIBLE
 
-        tv_update?.setOnClickListener {
+        btn_update?.setOnClickListener {
             hideProgressError()
             action()
         }

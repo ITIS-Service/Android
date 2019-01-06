@@ -25,6 +25,24 @@ class CoursePresenter : MvpPresenter<CourseView>() {
         App.applicationComponent.inject(this)
     }
 
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        viewState.getCourseId()
+    }
+
+    fun loadCourse(id: Int?) {
+        compositeDisposable.add(userApi
+                .course(sharedPreferences.getAccessToken(), id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { viewState.showProgress() }
+                .doAfterTerminate { viewState.hideProgress() }
+                .subscribe({
+                    viewState.showDescriptionCourse(it)
+                }, { error -> viewState.onConnectionError(error) })
+        )
+    }
+
+
     fun signUp(id: Int? ) {
         compositeDisposable.add(userApi
                 .signUpCourse(sharedPreferences.getAccessToken(), id)
@@ -32,7 +50,7 @@ class CoursePresenter : MvpPresenter<CourseView>() {
                 .doOnSubscribe { viewState.showProgress() }
                 .doAfterTerminate { viewState.hideProgress() }
                 .subscribe({
-                    viewState.showDetails(it)
+                    viewState.openCourseList()
                 }, { error -> viewState.onConnectionError(error) })
         )
     }
@@ -44,7 +62,7 @@ class CoursePresenter : MvpPresenter<CourseView>() {
                 .doOnSubscribe { viewState.showProgress() }
                 .doAfterTerminate { viewState.hideProgress() }
                 .subscribe({
-                    viewState.showDetails(it)
+                    viewState.openCourseList()
                 }, { error -> viewState.onConnectionError(error) })
         )
     }

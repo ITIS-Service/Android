@@ -45,6 +45,10 @@ class ProgressFragment : BaseFragment(), ProgressView {
 
         courseId = arguments?.getInt(COURSE_ID)
 
+        btn_update_points.setOnClickListener {
+            container_points_empty.visibility = View.GONE
+            getCourseId()
+        }
         setUpRecyclerView()
     }
 
@@ -60,6 +64,8 @@ class ProgressFragment : BaseFragment(), ProgressView {
     }
 
     override fun showPoints(points: UserPoints) {
+        isEmpty(points.points)
+
         val list: MutableList<Point> = ArrayList()
         points.points.forEach {
             list.add(it)
@@ -74,7 +80,6 @@ class ProgressFragment : BaseFragment(), ProgressView {
     }
 
     override fun onConnectionError(error: Throwable) {
-//        Toast.makeText(baseActivity, error.message, Toast.LENGTH_SHORT).show()
         showProgressError { getCourseId() }
     }
 
@@ -89,6 +94,12 @@ class ProgressFragment : BaseFragment(), ProgressView {
     override fun onStop() {
         super.onStop()
         hideProgressBar()
+    }
+
+    private fun isEmpty(points: List<Point>) {
+        if (points.isEmpty()) {
+            container_points_empty.visibility = View.VISIBLE
+        }
     }
 
     private fun setUpRecyclerView() {

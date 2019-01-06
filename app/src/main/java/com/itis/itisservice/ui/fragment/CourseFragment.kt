@@ -9,7 +9,6 @@ import com.itis.itisservice.R
 import com.itis.itisservice.model.course.CourseDetails
 import com.itis.itisservice.mvp.presenter.CoursePresenter
 import com.itis.itisservice.mvp.view.CourseView
-import com.itis.itisservice.utils.Constants.COURSE_ITEM
 import kotlinx.android.synthetic.main.fragment_course.*
 import android.widget.TextView
 import android.text.Spanned
@@ -19,9 +18,9 @@ import android.text.style.ClickableSpan
 import android.text.SpannableString
 import android.app.AlertDialog
 import com.itis.itisservice.model.course.CourseStatus
-import kotlinx.android.synthetic.main.activity_base.*
 import com.itis.itisservice.model.MessageEvent
-import kotlinx.android.synthetic.main.toolbar_layout.*
+import com.itis.itisservice.utils.Constants
+import com.itis.itisservice.utils.Constants.COURSE_NAME
 import org.greenrobot.eventbus.EventBus
 
 
@@ -30,12 +29,15 @@ class CourseFragment : BaseFragment(), CourseView {
     @InjectPresenter
     lateinit var presenter: CoursePresenter
 
-    private var courseDetails: CourseDetails? = null
+    private var course: CourseDetails? = null
+
+    private var courseId: Int? = null
 
     companion object {
-        fun newInstance(item: CourseDetails): CourseFragment {
+        fun newInstance(courseName: String?, courseId: Int?): CourseFragment {
             val args = Bundle()
-            args.putParcelable(COURSE_ITEM, item)
+            args.putString(COURSE_NAME, courseName)
+            courseId?.let { args.putInt(Constants.COURSE_ID, it) }
 
             val fragment = CourseFragment()
             fragment.arguments = args
@@ -48,10 +50,8 @@ class CourseFragment : BaseFragment(), CourseView {
         baseActivity.supportActionBar?.show()
         baseActivity.setBackArrow(true)
 
-        courseDetails = arguments?.getParcelable(COURSE_ITEM)
-        courseDetails?.let { showDescriptionCourse(it) }
-
-        courseDetails?.course?.name?.let { baseActivity.setToolbarTitle(it) }
+        courseId = arguments?.getInt(Constants.COURSE_ID)
+        arguments?.getString(COURSE_NAME)?.let { baseActivity.setToolbarTitle(it) }
 
         setOnClickListener()
     }
@@ -63,7 +63,11 @@ class CourseFragment : BaseFragment(), CourseView {
         return R.string.screen_name_course
     }
 
-    override fun showDetails(course: CourseDetails) {
+    override fun getCourseId() {
+        presenter.loadCourse(courseId)
+    }
+
+    override fun openCourseList() {
         baseActivity.clearFragmentsStack()
     }
 
@@ -77,10 +81,12 @@ class CourseFragment : BaseFragment(), CourseView {
 
     override fun showProgress() {
         showProgressBar()
+        //shimmer_view_container.startShimmer()
     }
 
     override fun hideProgress() {
         EventBus.getDefault().post(MessageEvent())
+        //shimmer_view_container.stopShimmer()
         hideProgressBar()
     }
 
@@ -92,12 +98,13 @@ class CourseFragment : BaseFragment(), CourseView {
             createAlertDialog(R.string.dialog_title_sign_up, "Подтверждение записи на курс ")
         }
         btn_course_progress.setOnClickListener {
-            baseActivity.setContent(ProgressFragment.newInstance(courseDetails?.id),
+            baseActivity.setContent(ProgressFragment.newInstance(course?.id),
                     true)
         }
     }
 
-    private fun showDescriptionCourse(courseDetails: CourseDetails) {
+    override fun showDescriptionCourse(courseDetails: CourseDetails) {
+        course = courseDetails
         when (courseDetails.userCourseStatus) {
             CourseStatus.ACCEPTED -> showStatusBlock()
             CourseStatus.WAITING -> showStatusBlock(true)
@@ -164,7 +171,7 @@ class CourseFragment : BaseFragment(), CourseView {
     private fun createAlertDialog(title: Int, message: String, signOutOpen: Boolean = false) {
         /*iOSDialogBuilder(baseActivity)
                 .setTitle(getString(R.string.dialog_title))
-                .setSubtitle(getString(R.string.dialog_subtitle) + " " + courseDetails?.name)
+                .setSubtitle(getString(R.string.dialog_subtitle) + " " + course?.name)
                 .setBoldPositiveLabel(false)
                 .setCancelable(false)
                 .setPositiveListener(getString(R.string.ok)) { dialog ->
@@ -177,13 +184,13 @@ class CourseFragment : BaseFragment(), CourseView {
 
         AlertDialog.Builder(baseActivity, R.style.AlertDialogCustom)
                 .setTitle(title)
-                .setMessage("$message \"${courseDetails?.course?.name}\"")
+                .setMessage("$message \"${course?.course?.name}\"")
                 .setCancelable(true)
                 .setPositiveButton(R.string.ok) { dialog, arg1 ->
                     if (signOutOpen) {
-                        presenter.signOut(courseDetails?.id)
+                        presenter.signOut(course?.id)
                     } else {
-                        presenter.signUp(courseDetails?.id)
+                        presenter.signUp(course?.id)
                     }
                 }
                 .setNegativeButton(R.string.dismiss) { dialog, arg -> }

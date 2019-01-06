@@ -32,8 +32,9 @@
         android:textColor="@color/light_grey"
         android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/tv_update"
+    <Button
+        android:id="@+id/btn_update"
+        style="@style/PrimaryButton2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"

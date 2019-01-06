@@ -63,6 +63,11 @@ class CourseListFragment : BaseFragment(), CourseListView {
         baseActivity.supportActionBar?.show()
 
         rv_courses.layoutManager = LinearLayoutManager(baseActivity)
+
+        btn_update_courses.setOnClickListener {
+            container_courses_empty.visibility = View.GONE
+            presenter.loadCourses()
+        }
     }
 
     override val mainContentLayout: Int
@@ -73,10 +78,12 @@ class CourseListFragment : BaseFragment(), CourseListView {
     }
 
     override fun showDetails(item: CourseDetails) {
-        baseActivity.setContent(CourseFragment.newInstance(item), true)
+        //baseActivity.setContent(CourseFragment.newInstance(item), true)
     }
 
     override fun showCourses(courses: ListCourses) {
+        isEmpty(courses)
+
         courseList.clear()
         allCourses.clear()
         myCourses.clear()
@@ -103,6 +110,16 @@ class CourseListFragment : BaseFragment(), CourseListView {
         }
 
         rv_courses.adapter = adapter
+    }
+
+    private fun isEmpty(courses: ListCourses) {
+        val allCourses = courses.allCourses?.isEmpty() ?: false
+        val suggestedCourses = courses.suggestedCourses?.isEmpty() ?: false
+        val userCourses = courses.userCourses?.isEmpty() ?: false
+        if (allCourses && suggestedCourses && userCourses) {
+            Log.d("My tag course list", "$allCourses $suggestedCourses $userCourses")
+            container_courses_empty.visibility = View.VISIBLE
+        }
     }
 
     private fun expandGroup(gPos: Int) {
@@ -134,7 +151,7 @@ class CourseListFragment : BaseFragment(), CourseListView {
     }
 
     private fun onItemClick(item: Course) {
-        presenter.onItemClick(item)
+        baseActivity.setContent(CourseFragment.newInstance(item.name, item.id), true)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

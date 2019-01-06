@@ -11,6 +11,7 @@ object Constants {
 
     const val NUM_QUESTION_KEY = "num_question"
     const val COURSE_ITEM = "course_item"
+    const val COURSE_NAME = "course_name"
     const val COURSE_ID = "course_id"
     const val QUIZ_IS_AGAIN = "course_id"
 
