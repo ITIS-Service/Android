@@ -10,4 +10,5 @@ open class Profile(
         var lastName: String? = null,
         var email: String? = null,
         var group: Group? = null,
-        var passedQuiz: Boolean? = false) : RealmObject()
+        var passedQuiz: Boolean? = false,
+        var userSettings: UserSettings? = null) : RealmObject()

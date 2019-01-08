@@ -7,8 +7,8 @@ import io.realm.annotations.PrimaryKey
 data class DayTime(
         @PrimaryKey
         var id: Int = 0,
-        var day: Day?,
-        var times: List<String>?) : Parcelable {
+        var day: Day? = null,
+        var times: List<String>? = null) : Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readInt(),

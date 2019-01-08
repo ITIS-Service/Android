@@ -1,6 +1,10 @@
 package com.itis.itisservice.model
 
-data class UserSettings(
+import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
+
+open class UserSettings(
+        @PrimaryKey
         var id: Int? = 0,
         var courseStatusNotificationEnabled: Boolean? = true,
-        var pointsNotificationEnabled: Boolean? = true)
+        var pointsNotificationEnabled: Boolean? = true) : RealmObject()

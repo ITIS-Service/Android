@@ -66,7 +66,7 @@ class SettingsFragment : BaseFragment(), SettingsView {
     }
 
     override fun onConnectionError(error: Throwable) {
-        Toast.makeText(baseActivity, error.message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(baseActivity, "Что-то пошло не так! Проверьте соединение с интернетом!", Toast.LENGTH_SHORT).show()
     }
 
     override fun showProgress() {

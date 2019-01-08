@@ -51,4 +51,8 @@ class AppPreferencesHelper(context: Context) {
     fun getmPrefs(): SharedPreferences {
         return mPrefs
     }
+
+    fun clear() {
+        mPrefs.edit().clear().apply()
+    }
 }

@@ -31,7 +31,6 @@ class NotificationPresenter : MvpPresenter<NotificationView>() {
                 .changeNotifications(sharedPreferences.getAccessToken(), userSettings)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-
                 }, { error -> viewState.onConnectionError(error) })
         )
     }

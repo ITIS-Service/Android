@@ -64,10 +64,10 @@ class ProgressFragment : BaseFragment(), ProgressView {
     }
 
     override fun showPoints(points: UserPoints) {
-        isEmpty(points.points)
+        isEmpty(points.points as List<Point>)
 
         val list: MutableList<Point> = ArrayList()
-        points.points.forEach {
+        points.points?.forEach {
             list.add(it)
             Log.d("count: ", it.count.toString())
         }

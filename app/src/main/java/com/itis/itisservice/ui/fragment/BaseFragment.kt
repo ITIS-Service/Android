@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
+import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
@@ -63,6 +64,10 @@ abstract class BaseFragment : MvpAppCompatFragment() {
             hideProgressError()
             action()
         }
+    }
+
+    fun showSnackBar(view: View, message: String) {
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
     }
 
     private fun hideProgressError() {

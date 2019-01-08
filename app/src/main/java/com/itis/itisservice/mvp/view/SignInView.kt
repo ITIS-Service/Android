@@ -7,6 +7,6 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 interface SignInView : BaseView {
     fun enableLoginButton()
     fun disableLoginButton()
-    fun onLoginSuccess()
+    fun onLoginSuccess(passedQuiz: Boolean?)
     fun forceUpdateEmailPassword()
 }

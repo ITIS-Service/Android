@@ -16,6 +16,7 @@ import android.text.Editable
 import android.widget.Toast
 import com.itis.itisservice.model.User
 import kotlinx.android.synthetic.main.activity_base.*
+import kotlinx.android.synthetic.main.activity_start.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
 
 class SignUpFragment : BaseFragment(), SignUpView {
@@ -52,6 +53,11 @@ class SignUpFragment : BaseFragment(), SignUpView {
         setHasOptionsMenu(true)
         baseActivity.setBackArrow(true)
         baseActivity.fragmentOnScreen(this)
+
+        setOnClickListeners()
+    }
+
+    private fun setOnClickListeners() {
         btn_to_sign_up.setOnClickListener { onRegisterClicked() }
         edt_email_sign_up.addTextChangedListener(object : TextWatcher {
 
@@ -120,11 +126,13 @@ class SignUpFragment : BaseFragment(), SignUpView {
     }
 
     override fun onConnectionError(error: Throwable) {
-        Toast.makeText(baseActivity, error.message, Toast.LENGTH_SHORT).show()
+//        Toast.makeText(baseActivity, error.message, Toast.LENGTH_SHORT).show()
+        showSnackBar(linear_layout_container_sign_up, "Что-то пошло не так! Проверьте соединение с интернетом!")
     }
 
     override fun onCodeInvalid() {
-        Toast.makeText(baseActivity, "Проверьте правильность введеных данных", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(baseActivity, "Проверьте правильность введеных данных", Toast.LENGTH_SHORT).show()
+        showSnackBar(linear_layout_container_sign_up, "Проверьте правильность введеных данных")
     }
 
     override fun showProgress() {

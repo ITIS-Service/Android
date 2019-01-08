@@ -82,7 +82,7 @@ class CourseListFragment : BaseFragment(), CourseListView {
     }
 
     override fun showCourses(courses: ListCourses) {
-        isEmpty(courses)
+        //isEmpty(courses)
 
         courseList.clear()
         allCourses.clear()
@@ -112,6 +112,7 @@ class CourseListFragment : BaseFragment(), CourseListView {
         rv_courses.adapter = adapter
     }
 
+    //todo finish method
     private fun isEmpty(courses: ListCourses) {
         val allCourses = courses.allCourses?.isEmpty() ?: false
         val suggestedCourses = courses.suggestedCourses?.isEmpty() ?: false
@@ -134,6 +135,7 @@ class CourseListFragment : BaseFragment(), CourseListView {
     }
 
     override fun onConnectionError(error: Throwable) {
+//        Toast.makeText(baseActivity, error.message, Toast.LENGTH_SHORT).show()
         showProgressError { presenter.loadCourses() }
     }
 

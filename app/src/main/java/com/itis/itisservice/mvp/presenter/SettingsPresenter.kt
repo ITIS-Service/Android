@@ -11,6 +11,7 @@ import com.itis.itisservice.mvp.view.SettingsView
 import com.itis.itisservice.utils.AppPreferencesHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.realm.Realm
 import javax.inject.Inject
 
 @InjectViewState
@@ -39,7 +40,8 @@ class SettingsPresenter : MvpPresenter<SettingsView>() {
                         .doOnSubscribe { viewState.showProgress() }
                         .doAfterTerminate { viewState.hideProgress() }
                         .subscribe({
-                            sharedPreferences.deleteToken()
+                            clearCache()
+                            sharedPreferences.clear()
                             viewState.unregisterSuccess()
                         }, { error -> viewState.onConnectionError(error) })
         )
@@ -47,6 +49,12 @@ class SettingsPresenter : MvpPresenter<SettingsView>() {
 
     fun getProfile(): Profile? {
         return profileRepository.getProfile()
+    }
+
+    private fun clearCache() {
+        Realm.getDefaultInstance().executeTransaction {
+            it.deleteAll()
+        }
     }
 
     override fun onDestroy() {

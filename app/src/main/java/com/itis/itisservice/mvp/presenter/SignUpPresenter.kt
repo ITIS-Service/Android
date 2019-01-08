@@ -10,12 +10,16 @@ import com.itis.itisservice.model.User
 import com.itis.itisservice.mvp.view.SignUpView
 import com.itis.itisservice.tools.validation.EmailValidator
 import com.itis.itisservice.tools.validation.PasswordValidator
+import com.itis.itisservice.utils.NetworkManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 @InjectViewState
 class SignUpPresenter : MvpPresenter<SignUpView>() {
+
+    @Inject
+    lateinit var networkManager: NetworkManager
 
     @Inject
     lateinit var profileRepository: ProfileRepository
@@ -36,22 +40,21 @@ class SignUpPresenter : MvpPresenter<SignUpView>() {
     }
 
     fun startRegister(user: User) {
-        compositeDisposable.add(userApi
-                .signUp(user)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { viewState.showProgress() }
-                .doAfterTerminate { viewState.hideProgress() }
-                .subscribe(
-                        {
-                            /*if (it.code() == 200) {
+        if (networkManager.isOnline()) {
+            compositeDisposable.add(userApi
+                    .signUp(user)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe { viewState.showProgress() }
+                    .doAfterTerminate { viewState.hideProgress() }
+                    .subscribe(
+                            {
+                                profileRepository.addProfile(it)
                                 viewState.onRegistrationSuccess()
-                            } else {
-                                viewState.onCodeInvalid()
-                            }*/
-                            profileRepository.addProfile(it)
-                            viewState.onRegistrationSuccess()
-                        }, { error -> viewState.onConnectionError(error) })
-        )
+                            }, { error -> viewState.onConnectionError(error) })
+            )
+        } else {
+            viewState.onConnectionError(Throwable())
+        }
     }
 
     fun isEmailValid(email: String) {

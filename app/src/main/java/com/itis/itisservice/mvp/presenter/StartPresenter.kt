@@ -36,7 +36,7 @@ class StartPresenter : MvpPresenter<StartView>() {
         }
     }
 
-    fun isPassQuiz(): Boolean {
-        return profileRepository.getProfile()?.passedQuiz ?: true
+    fun passedQuiz(): Boolean {
+        return profileRepository.getProfile()?.passedQuiz ?: false
     }
 }

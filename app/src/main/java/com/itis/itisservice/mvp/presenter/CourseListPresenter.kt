@@ -44,30 +44,10 @@ class CourseListPresenter : MvpPresenter<CourseListView>() {
 
     fun loadCourses() {
         compositeDisposable.add(
-                /*networkManager.hasInternetConnection()
-                        .flatMap {
-                            if (it) {
-                                Log.d("MY_TAG", "online")
-                                userApi
-                                        .courses(sharedPreferences.getAccessToken())
-                                        .doOnNext { listCourses -> coursesRepository.addCourses(listCourses) }
-                            } else {
-                                Log.d("MY_TAG", "offline")
-                                coursesRepository.getCourses()
-                            }
-                        }
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSubscribe { viewState.showProgress() }
-                        .doAfterTerminate { viewState.hideProgress() }
-                        .subscribe({
-                            viewState.showCourses(it)
-                        }, { error -> viewState.onConnectionError(error) })*/
-
-
                 userApi
                         .courses(sharedPreferences.getAccessToken())
-                        //.doOnNext { coursesRepository.addCourses(it) }
-                        //.onErrorResumeNext(coursesRepository.getCourses())
+                        .flatMap { coursesRepository.addCourses(it) }
+                        .onErrorResumeNext(coursesRepository.getCourses())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnSubscribe { viewState.showProgress() }
                         .doAfterTerminate { viewState.hideProgress() }

@@ -1,9 +1,6 @@
 package com.itis.itisservice.di.module
 
-import com.itis.itisservice.db.CoursesRepository
-import com.itis.itisservice.db.CoursesRepositoryImpl
-import com.itis.itisservice.db.ProfileRepository
-import com.itis.itisservice.db.ProfileRepositoryImpl
+import com.itis.itisservice.db.*
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -21,5 +18,11 @@ class RepositoryModule {
     @Provides
     fun provideCoursesRepository(): CoursesRepository {
         return CoursesRepositoryImpl()
+    }
+
+    @Singleton
+    @Provides
+    fun providePointsRepository(): PointsRepository {
+        return PointsRepositoryImpl()
     }
 }

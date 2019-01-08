@@ -6,16 +6,18 @@ import io.realm.Realm
 
 class CoursesRepositoryImpl : BaseRepository(), CoursesRepository {
 
-    override fun addCourses(courses: ListCourses) {
+    override fun addCourses(courses: ListCourses): Observable<ListCourses> {
         executeTransaction(Realm.Transaction {
-            it.copyToRealmOrUpdate(courses)
+            it.delete(ListCourses::class.java)
+            it.insertOrUpdate(courses)
         })
+        return Observable.fromCallable { courses }
     }
 
     override fun getCourses(): Observable<ListCourses?> {
         val listCourses: ListCourses? = realm.where(ListCourses::class.java).findFirst()
         return Observable.fromCallable {
-            realm.copyFromRealm(listCourses)
+            listCourses
         }
     }
 }

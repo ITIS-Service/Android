@@ -14,7 +14,6 @@ class ProfileRepositoryImpl : BaseRepository(), ProfileRepository {
     }
 
     override fun getProfile(): Profile? {
-        val r: RealmResults<Profile> = realm.where(Profile::class.java).findAll()
         return realm.where(Profile::class.java).findFirst()
     }
 }

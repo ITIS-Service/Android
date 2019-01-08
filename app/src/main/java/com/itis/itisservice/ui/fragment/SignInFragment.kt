@@ -1,8 +1,8 @@
 package com.itis.itisservice.ui.fragment
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import android.support.v4.app.FragmentTransaction
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,18 +11,12 @@ import android.view.View
 import android.widget.Toast
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.messaging.FirebaseMessagingService
 
 import com.itis.itisservice.R
 import com.itis.itisservice.mvp.presenter.SignInPresenter
 import com.itis.itisservice.mvp.view.SignInView
-import com.itis.itisservice.utils.hide
-import kotlinx.android.synthetic.main.activity_base.*
+import com.itis.itisservice.ui.activity.MainActivity
 import kotlinx.android.synthetic.main.fragment_login.*
-import com.google.firebase.internal.FirebaseAppHelper.getToken
-import com.google.firebase.iid.InstanceIdResult
-import com.google.android.gms.tasks.OnSuccessListener
-import kotlinx.android.synthetic.main.toolbar_layout.*
 
 
 class SignInFragment : BaseFragment(), SignInView {
@@ -83,7 +77,8 @@ class SignInFragment : BaseFragment(), SignInView {
         get() = R.layout.fragment_login
 
     override fun onCodeInvalid() {
-        Toast.makeText(baseActivity, "Неправильно введен логин или пароль", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(baseActivity, "Неправильно введен логин или пароль", Toast.LENGTH_SHORT).show()
+        showSnackBar(linear_layout_container_sign_in, "Неправильно введен логин или пароль")
     }
 
     override fun forceUpdateEmailPassword() {
@@ -92,9 +87,8 @@ class SignInFragment : BaseFragment(), SignInView {
     }
 
     override fun onConnectionError(error: Throwable) {
-        Log.d("Sign in error", error.message)
-        //Toast.makeText(baseActivity, error.message, Toast.LENGTH_SHORT).show()
-        Toast.makeText(baseActivity, "Неправильно введен логин или пароль", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(baseActivity, error.message, Toast.LENGTH_SHORT).show()
+        showSnackBar(linear_layout_container_sign_in, "Что-то пошло не так! Проверьте соединение с интернетом!")
     }
 
     override fun showProgress() {
@@ -118,9 +112,15 @@ class SignInFragment : BaseFragment(), SignInView {
         btn_to_sign_in.isEnabled = false
     }
 
-    override fun onLoginSuccess() {
+    override fun onLoginSuccess(passedQuiz: Boolean?) {
         //presenter.createSharedPreferences(token)
-        baseActivity.setContent(StartQuizFragment.newInstance(), false)
+        if (passedQuiz == false) {
+            baseActivity.setContent(StartQuizFragment.newInstance(), false)
+        } else {
+            val intent = Intent(baseActivity, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(intent)
+        }
     }
 
     @SuppressLint("HardwareIds")
